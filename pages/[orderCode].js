@@ -1,35 +1,33 @@
 import axios from "axios";
 import moment from "moment";
 import Head from "next/head";
+import { API_URL } from "../common/constant";
 import Layout from "../components/layout";
-
-// const url = "https://linknuoc-go-xhj5h5a4za-as.a.run.app";
-const url = "http://localhost:1314";
+import { getOrderItems } from "../services/OrderItemService";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FormDialog from "../components/form-dialog";
 
 export async function getServerSideProps({ params }) {
-  const orderRes = await axios.get(`${url}/orders/${params.orderCode}`);
+  const orderRes = await axios.get(`${API_URL}/orders/${params.orderCode}`);
   if (orderRes.data.status !== "SUCCESS") {
     return {
       notFound: true,
     };
   }
 
-  const orderItemRes = await axios.get(
-    `${url}/orders/${params.orderCode}/items`
-  );
-  console.log(orderItemRes.data.data);
+  const orderItems = await getOrderItems(params.orderCode);
 
   return {
     props: {
       order: orderRes.data.data,
-      items: orderItemRes.data.data,
+      items: orderItems,
     },
   };
 }
 
 export default function OrderPage(props) {
   const { order, items } = props;
-  // console.log(items);
 
   return (
     <Layout>
@@ -45,24 +43,29 @@ export default function OrderPage(props) {
           </a>
         </h1>
         <h1>
-          Link đóng vào lúc:{" "}
-          {moment(order.deadline).format("DD/MM/YYYY HH:mm:ss")}
+          Link sẽ đóng vào lúc{" "}
+          {moment(order.deadline).format("HH:mm:ss DD/MM/YYYY")}
         </h1>
+        <FormDialog orderCode={order.order_code} />
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Drink</th>
+              <th>Tên</th>
+              <th>Nước</th>
               <th>Size</th>
+              <th></th>
             </tr>
           </thead>
 
           <tbody>
-            {items.map((item, i) => (
-              <tr key={i}>
+            {items.map((item) => (
+              <tr key={item.id}>
                 <td>{item.name}</td>
                 <td>{item.drink}</td>
                 <td>{item.size}</td>
+                <td>
+                  <EditIcon /> <DeleteIcon />
+                </td>
               </tr>
             ))}
           </tbody>
