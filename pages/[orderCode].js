@@ -3,7 +3,7 @@ import moment from "moment";
 import Head from "next/head";
 import { API_URL } from "../common/constant";
 import Layout from "../components/layout";
-import { getOrderItems } from "../services/OrderItemService";
+import { deleteOrderItems, getOrderItems } from "../services/OrderItemService";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FormDialog from "../components/form-dialog";
 import FormEditDialog from "../components/form-edit-dialog";
@@ -28,6 +28,10 @@ export async function getServerSideProps({ params }) {
 
 export default function OrderPage(props) {
   const { order, items } = props;
+
+  const handleDelete = (id) => {
+    deleteOrderItems(id);
+  };
 
   return (
     <Layout>
@@ -64,7 +68,12 @@ export default function OrderPage(props) {
                 <td>{item.drink}</td>
                 <td>{item.size}</td>
                 <td>
-                  <FormEditDialog item={item} /> <DeleteIcon />
+                  <FormEditDialog item={item} />{" "}
+                  <DeleteIcon
+                    onClick={() => {
+                      handleDelete(item.id);
+                    }}
+                  />
                 </td>
               </tr>
             ))}
