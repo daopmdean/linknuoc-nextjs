@@ -4,9 +4,9 @@ import Head from "next/head";
 import { API_URL } from "../common/constant";
 import Layout from "../components/layout";
 import { getOrderItems } from "../services/OrderItemService";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FormDialog from "../components/form-dialog";
+import FormEditDialog from "../components/form-edit-dialog";
 
 export async function getServerSideProps({ params }) {
   const orderRes = await axios.get(`${API_URL}/orders/${params.orderCode}`);
@@ -64,7 +64,7 @@ export default function OrderPage(props) {
                 <td>{item.drink}</td>
                 <td>{item.size}</td>
                 <td>
-                  <EditIcon /> <DeleteIcon />
+                  <FormEditDialog item={item} /> <DeleteIcon />
                 </td>
               </tr>
             ))}

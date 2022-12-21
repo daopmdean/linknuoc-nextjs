@@ -29,3 +29,16 @@ export async function createOrderItems(orderItem) {
   //   .then((data) => {});
   // console.log(requestOptions);
 }
+
+export async function updateOrderItems(orderItem) {
+  const orderItemRes = await axios.put(`${API_URL}/items/${orderItem.id}`, {
+    order_code: orderItem.order_code,
+    name: orderItem.name,
+    drink: orderItem.drink,
+    size: orderItem.size,
+  });
+}
+
+export async function deleteOrderItems(id) {
+  const orderItemRes = await axios.delete(`${API_URL}/items/${id}`);
+}
