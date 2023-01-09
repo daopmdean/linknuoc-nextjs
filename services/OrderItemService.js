@@ -2,8 +2,9 @@ import axios from "axios";
 import { API_URL } from "../common/constant";
 
 export async function getOrderItems(orderCode) {
-  const orderItemRes = await axios.get(`${API_URL}/orders/${orderCode}/items`);
-  return orderItemRes.data.data;
+  const orderItemFetchRes = await fetch(`${API_URL}/orders/${orderCode}/items`);
+  const orderItemRes = await orderItemFetchRes.json();
+  return orderItemRes.data;
 }
 
 export async function createOrderItems(orderItem) {

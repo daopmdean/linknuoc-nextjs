@@ -7,20 +7,23 @@ import { deleteOrderItems, getOrderItems } from "../services/OrderItemService";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FormDialog from "../components/form-dialog";
 import FormEditDialog from "../components/form-edit-dialog";
+import { useEffect, useState } from "react";
 
 export async function getServerSideProps({ params }) {
-  const orderRes = await axios.get(`${API_URL}/orders/${params.orderCode}`);
-  if (orderRes.data.status !== "SUCCESS") {
+  const orderFetchRes = await fetch(`${API_URL}/orders/${params.orderCode}`);
+  const orderRes = await orderFetchRes.json();
+  if (orderRes.status !== "SUCCESS") {
     return {
       notFound: true,
     };
   }
 
-  const orderItems = await getOrderItems(params.orderCode);
+  const orderItems = await getOrderItems(orderRes.data.order_code);
+  console.log(orderItems);
 
   return {
     props: {
-      order: orderRes.data.data,
+      order: orderRes.data,
       items: orderItems,
     },
   };
@@ -28,6 +31,13 @@ export async function getServerSideProps({ params }) {
 
 export default function OrderPage(props) {
   const { order, items } = props;
+  // const [items, setItems] = useState([]);
+
+  // useEffect(async () => {
+  //   const orderItems = await getOrderItems(order.orderCode);
+  //   setItems(orderItems);
+  //   console.log("loaded...", items);
+  // }, []);
 
   const handleDelete = (id) => {
     deleteOrderItems(id);
