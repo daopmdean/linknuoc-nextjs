@@ -72,7 +72,8 @@ export default function OrderPage(props) {
           </thead>
 
           <tbody>
-            {items.map((item) => (
+            {items?.length == 0 ? <i>No drink yet</i> : <></>}
+            {items?.map((item) => (
               <tr key={item.id}>
                 <td>{item.name}</td>
                 <td>{item.drink}</td>
