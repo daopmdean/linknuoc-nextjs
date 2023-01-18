@@ -1,4 +1,3 @@
-import axios from "axios";
 import { API_URL } from "../common/constant";
 
 export async function getOrderItems(orderCode) {
@@ -8,38 +7,44 @@ export async function getOrderItems(orderCode) {
 }
 
 export async function createOrderItems(orderItem) {
-  const orderItemRes = await axios.post(`${API_URL}/items`, {
-    order_code: orderItem.order_code,
-    name: orderItem.name,
-    drink: orderItem.drink,
-    size: orderItem.size,
-  });
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      order_code: orderItem.order_code,
+      name: orderItem.name,
+      drink: orderItem.drink,
+      size: orderItem.size,
+    }),
+  };
 
-  // const requestOptions = {
-  //   method: "POST",
-  //   body: JSON.stringify({
-  //     order_code: orderItem.order_code,
-  //     name: orderItem.name,
-  //     drink: orderItem.drink,
-  //     size: orderItem.size,
-  //   }),
-  // };
-
-  // await fetch(`${API_URL}/items`, requestOptions)
-  //   .then((res) => res.json())
-  //   .then((data) => {});
-  // console.log(requestOptions);
+  await fetch(`${API_URL}/items`, requestOptions)
+    .then((res) => res.json())
+    .then((data) => {});
 }
 
 export async function updateOrderItems(orderItem) {
-  const orderItemRes = await axios.put(`${API_URL}/items/${orderItem.id}`, {
-    order_code: orderItem.order_code,
-    name: orderItem.name,
-    drink: orderItem.drink,
-    size: orderItem.size,
-  });
+  const requestOptions = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      order_code: orderItem.order_code,
+      name: orderItem.name,
+      drink: orderItem.drink,
+      size: orderItem.size,
+    }),
+  };
+
+  await fetch(`${API_URL}/items/${orderItem.id}`, requestOptions);
 }
 
 export async function deleteOrderItems(id) {
-  const orderItemRes = await axios.delete(`${API_URL}/items/${id}`);
+  const requestOptions = {
+    method: "DELETE",
+  };
+  await fetch(`${API_URL}/items/${id}`, requestOptions);
 }
