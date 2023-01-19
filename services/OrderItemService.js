@@ -20,9 +20,7 @@ export async function createOrderItems(orderItem) {
     }),
   };
 
-  await fetch(`${API_URL}/items`, requestOptions)
-    .then((res) => res.json())
-    .then((data) => {});
+  await fetch(`${API_URL}/items`, requestOptions);
 }
 
 export async function updateOrderItems(orderItem) {

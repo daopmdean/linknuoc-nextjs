@@ -1,17 +1,15 @@
-import axios from "axios";
 import moment from "moment";
 import Head from "next/head";
-import { API_URL } from "../common/constant";
 import Layout from "../components/layout";
 import { deleteOrderItems, getOrderItems } from "../services/OrderItemService";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FormDialog from "../components/form-dialog";
 import FormEditDialog from "../components/form-edit-dialog";
 import { useEffect, useState } from "react";
+import { getOrderRes } from "../services/OrderService";
 
 export async function getServerSideProps({ params }) {
-  const orderFetchRes = await fetch(`${API_URL}/orders/${params.orderCode}`);
-  const orderRes = await orderFetchRes.json();
+  const orderRes = await getOrderRes(params.orderCode);
   if (orderRes.status !== "SUCCESS") {
     return {
       notFound: true,
@@ -19,7 +17,6 @@ export async function getServerSideProps({ params }) {
   }
 
   const orderItems = await getOrderItems(orderRes.data.order_code);
-  console.log(orderItems);
 
   return {
     props: {
@@ -30,14 +27,27 @@ export async function getServerSideProps({ params }) {
 }
 
 export default function OrderPage(props) {
-  const { order, items } = props;
-  // const [items, setItems] = useState([]);
+  const [hydrated, setHydrated] = useState(false);
+  // const { order, items } = props;
+  const [order, setOrder] = useState(props.order);
+  const [items, setItems] = useState(props.items);
+
+  useEffect(async () => {
+    setHydrated(true);
+    // const orderItems = await getOrderItems(order.orderCode);
+    // setItems(orderItems);
+    // console.log("loaded...", items);
+  }, []);
+
+  if (!hydrated) {
+    return null;
+  }
 
   // useEffect(async () => {
   //   const orderItems = await getOrderItems(order.orderCode);
   //   setItems(orderItems);
   //   console.log("loaded...", items);
-  // }, []);
+  // }, [items]);
 
   const handleDelete = (id) => {
     deleteOrderItems(id);
@@ -61,35 +71,38 @@ export default function OrderPage(props) {
           {moment(order.deadline).format("HH:mm:ss DD/MM/YYYY")}
         </h1>
         <FormDialog orderCode={order.order_code} />
-        <table>
-          <thead>
-            <tr>
-              <th>Tên</th>
-              <th>Nước</th>
-              <th>Size</th>
-              <th></th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {items?.length == 0 ? <i>No drink yet</i> : <></>}
-            {items?.map((item) => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td>{item.drink}</td>
-                <td>{item.size}</td>
-                <td>
-                  <FormEditDialog item={item} />{" "}
-                  <DeleteIcon
-                    onClick={() => {
-                      handleDelete(item.id);
-                    }}
-                  />
-                </td>
+        {items == null ? (
+          <i>No drink yet</i>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Tên</th>
+                <th>Nước</th>
+                <th>Size</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {items?.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                  <td>{item.drink}</td>
+                  <td>{item.size}</td>
+                  <td>
+                    <FormEditDialog item={item} />{" "}
+                    <DeleteIcon
+                      onClick={() => {
+                        handleDelete(item.id);
+                      }}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </article>
     </Layout>
   );
