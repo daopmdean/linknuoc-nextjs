@@ -7,6 +7,7 @@ import FormDialog from "../components/form-dialog";
 import FormEditDialog from "../components/form-edit-dialog";
 import { useEffect, useState } from "react";
 import { getOrderRes } from "../services/OrderService";
+import { Button } from "@mui/material";
 
 export async function getServerSideProps({ params }) {
   const orderRes = await getOrderRes(params.orderCode);
@@ -31,6 +32,7 @@ export default function OrderPage(props) {
   // const { order, items } = props;
   const [order, setOrder] = useState(props.order);
   const [items, setItems] = useState(props.items);
+  console.log(props.order.deadline);
 
   useEffect(async () => {
     setHydrated(true);
@@ -43,14 +45,13 @@ export default function OrderPage(props) {
     return null;
   }
 
-  // useEffect(async () => {
-  //   const orderItems = await getOrderItems(order.orderCode);
-  //   setItems(orderItems);
-  //   console.log("loaded...", items);
-  // }, [items]);
-
   const handleDelete = (id) => {
     deleteOrderItems(id);
+  };
+
+  const handleRefreshItems = async () => {
+    const orderItems = await getOrderItems(order.order_code);
+    setItems(orderItems);
   };
 
   return (
@@ -66,10 +67,23 @@ export default function OrderPage(props) {
             {order.drink_link}
           </a>
         </h1>
-        <h1>
-          Link sẽ đóng vào lúc{" "}
-          {moment(order.deadline).format("HH:mm:ss DD/MM/YYYY")}
-        </h1>
+        {order?.deadline ? (
+          <h1>
+            Link sẽ đóng vào lúc{" "}
+            {moment(order?.deadline).format("HH:mm:ss DD/MM/YYYY")}
+          </h1>
+        ) : (
+          <></>
+        )}
+        <Button
+          variant="contained"
+          onClick={() => {
+            handleRefreshItems();
+          }}
+        >
+          Refresh
+        </Button>
+
         <FormDialog orderCode={order.order_code} />
         {items == null ? (
           <i>No drink yet</i>
@@ -95,6 +109,7 @@ export default function OrderPage(props) {
                     <DeleteIcon
                       onClick={() => {
                         handleDelete(item.id);
+                        handleRefreshItems();
                       }}
                     />
                   </td>

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -9,10 +9,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { createOrderItems } from "../services/OrderItemService";
 
 export default function FormDialog({ orderCode }) {
-  const [name, setName] = React.useState("");
-  const [drink, setDrink] = React.useState("");
-  const [size, setSize] = React.useState("");
-  const [open, setOpen] = React.useState(false);
+  const [name, setName] = useState("");
+  const [drink, setDrink] = useState("");
+  const [size, setSize] = useState("");
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -58,7 +58,7 @@ export default function FormDialog({ orderCode }) {
         <DialogContent>
           <DialogContentText>
             Sữa mẹ là thức ăn tốt nhất cho sự phát triển của trẻ sơ sinh và trẻ
-            nhỏ. Và ba đứa trẻ,...
+            nhỏ. Và ba của đứa trẻ,...
           </DialogContentText>
           <TextField
             autoFocus

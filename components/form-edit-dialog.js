@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -9,10 +9,10 @@ import { updateOrderItems } from "../services/OrderItemService";
 import EditIcon from "@mui/icons-material/Edit";
 
 export default function FormEditDialog(props) {
-  const [name, setName] = React.useState(props.item.name);
-  const [drink, setDrink] = React.useState(props.item.drink);
-  const [size, setSize] = React.useState(props.item.size);
-  const [open, setOpen] = React.useState(false);
+  const [name, setName] = useState(props.item.name);
+  const [drink, setDrink] = useState(props.item.drink);
+  const [size, setSize] = useState(props.item.size);
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
