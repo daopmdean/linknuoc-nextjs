@@ -29,24 +29,20 @@ export async function getServerSideProps({ params }) {
 
 export default function OrderPage(props) {
   const [hydrated, setHydrated] = useState(false);
-  // const { order, items } = props;
   const [order, setOrder] = useState(props.order);
   const [items, setItems] = useState(props.items);
   console.log(props.order.deadline);
 
   useEffect(async () => {
     setHydrated(true);
-    // const orderItems = await getOrderItems(order.orderCode);
-    // setItems(orderItems);
-    // console.log("loaded...", items);
   }, []);
 
   if (!hydrated) {
     return null;
   }
 
-  const handleDelete = (id) => {
-    deleteOrderItems(id);
+  const handleDelete = async (id) => {
+    await deleteOrderItems(id);
   };
 
   const handleRefreshItems = async () => {
@@ -83,8 +79,8 @@ export default function OrderPage(props) {
         >
           Refresh
         </Button>
-
-        <FormDialog orderCode={order.order_code} />
+        <br />
+        <FormDialog orderCode={order.order_code} rFunc={handleRefreshItems} />
         {items == null ? (
           <i>No drink yet</i>
         ) : (
@@ -105,10 +101,10 @@ export default function OrderPage(props) {
                   <td>{item.drink}</td>
                   <td>{item.size}</td>
                   <td>
-                    <FormEditDialog item={item} />{" "}
+                    <FormEditDialog item={item} rFunc={handleRefreshItems} />{" "}
                     <DeleteIcon
-                      onClick={() => {
-                        handleDelete(item.id);
+                      onClick={async () => {
+                        await handleDelete(item.id);
                         handleRefreshItems();
                       }}
                     />

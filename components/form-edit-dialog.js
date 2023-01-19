@@ -34,15 +34,16 @@ export default function FormEditDialog(props) {
     setSize(evt.target.value);
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    updateOrderItems({
+    await updateOrderItems({
       id: props.item.id,
       order_code: props.item.order_code,
       name: name,
       drink: drink,
       size: size,
     });
+    await props.rFunc();
     setOpen(false);
   };
 

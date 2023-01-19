@@ -8,7 +8,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { createOrderItems } from "../services/OrderItemService";
 
-export default function FormDialog({ orderCode }) {
+export default function FormDialog({ orderCode, rFunc }) {
   const [name, setName] = useState("");
   const [drink, setDrink] = useState("");
   const [size, setSize] = useState("");
@@ -37,14 +37,15 @@ export default function FormDialog({ orderCode }) {
     console.log(evt.target.value);
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
-    createOrderItems({
+    await createOrderItems({
       order_code: orderCode,
       name: name,
       drink: drink,
       size: size,
     });
+    await rFunc();
     setOpen(false);
   };
 
