@@ -13,7 +13,7 @@ export async function createOrderItems(orderItem) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      order_code: orderItem.order_code,
+      orderCode: orderItem.orderCode,
       name: orderItem.name,
       drink: orderItem.drink,
       size: orderItem.size,
@@ -30,7 +30,7 @@ export async function updateOrderItems(orderItem) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      order_code: orderItem.order_code,
+      orderCode: orderItem.orderCode,
       name: orderItem.name,
       drink: orderItem.drink,
       size: orderItem.size,

@@ -40,17 +40,17 @@ export default function FormDialog({ orderCode, rFunc }) {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     await createOrderItems({
-      order_code: orderCode,
-      name: name,
-      drink: drink,
-      size: size,
+      orderCode,
+      name,
+      drink,
+      size,
     });
     await rFunc();
     setOpen(false);
   };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit}>
       <Button variant="outlined" onClick={handleClickOpen}>
         Thêm ly nước coi
       </Button>
@@ -94,9 +94,11 @@ export default function FormDialog({ orderCode, rFunc }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Huỷ</Button>
-          <Button onClick={handleSubmit}>Thêm dô</Button>
+          <Button onClick={handleSubmit} type="submit">
+            Thêm dô
+          </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </form>
   );
 }

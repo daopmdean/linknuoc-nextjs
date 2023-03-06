@@ -38,7 +38,7 @@ export default function FormEditDialog(props) {
     evt.preventDefault();
     await updateOrderItems({
       id: props.item.id,
-      order_code: props.item.order_code,
+      orderCode: props.item.orderCode,
       name: name,
       drink: drink,
       size: size,

@@ -7,7 +7,15 @@ import FormDialog from "../components/form-dialog";
 import FormEditDialog from "../components/form-edit-dialog";
 import { useEffect, useState } from "react";
 import { getOrderRes } from "../services/OrderService";
-import { Button } from "@mui/material";
+import {
+  Button,
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 export async function getServerSideProps({ params }) {
   const orderRes = await getOrderRes(params.orderCode);
@@ -17,7 +25,7 @@ export async function getServerSideProps({ params }) {
     };
   }
 
-  const orderItems = await getOrderItems(orderRes.data.order_code);
+  const orderItems = await getOrderItems(orderRes.data.orderCode);
 
   return {
     props: {
@@ -28,25 +36,25 @@ export async function getServerSideProps({ params }) {
 }
 
 export default function OrderPage(props) {
-  const [hydrated, setHydrated] = useState(false);
+  // const [hydrated, setHydrated] = useState(false);
   const [order, setOrder] = useState(props.order);
   const [items, setItems] = useState(props.items);
-  console.log(props.order.deadline);
+  console.log(order);
+  console.log(items);
+  // useEffect(() => {
+  //   setHydrated(true);
+  // }, []);
 
-  useEffect(async () => {
-    setHydrated(true);
-  }, []);
-
-  if (!hydrated) {
-    return null;
-  }
+  // if (!hydrated) {
+  //   return null;
+  // }
 
   const handleDelete = async (id) => {
     await deleteOrderItems(id);
   };
 
   const handleRefreshItems = async () => {
-    const orderItems = await getOrderItems(order.order_code);
+    const orderItems = await getOrderItems(order.orderCode);
     setItems(orderItems);
   };
 
@@ -56,51 +64,60 @@ export default function OrderPage(props) {
         <title>Link nước</title>
       </Head>
       <article>
-        <h1>{order.title}</h1>
+        <h1>
+          <i>{order.title}</i>
+        </h1>
         <h1>
           Link menu ở đây:{" "}
-          <a href={order.drink_link} target="_blank">
-            {order.drink_link}
+          <a href={order.drinkLink} target="_blank">
+            {order.drinkLink}
           </a>
         </h1>
-        {order?.deadline ? (
+        {order?.deadline && (
           <h1>
             Link sẽ đóng vào lúc{" "}
             {moment(order?.deadline).format("HH:mm:ss DD/MM/YYYY")}
           </h1>
-        ) : (
-          <></>
         )}
-        <Button
-          variant="contained"
-          onClick={() => {
-            handleRefreshItems();
-          }}
-        >
-          Refresh
-        </Button>
-        <br />
-        <FormDialog orderCode={order.order_code} rFunc={handleRefreshItems} />
+        <Grid container justifyContent="flex-end" spacing={2}>
+          <Grid item>
+            <FormDialog
+              orderCode={order.orderCode}
+              rFunc={handleRefreshItems}
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              onClick={() => {
+                handleRefreshItems();
+              }}
+            >
+              Refresh
+            </Button>
+          </Grid>
+        </Grid>
+
         {items == null ? (
           <i>No drink yet</i>
         ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Tên</th>
-                <th>Nước</th>
-                <th>Size</th>
-                <th></th>
-              </tr>
-            </thead>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Tên</TableCell>
+                <TableCell>Nước</TableCell>
+                <TableCell>Size</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
 
-            <tbody>
+            <TableBody>
               {items?.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.drink}</td>
-                  <td>{item.size}</td>
-                  <td>
+                <TableRow key={item.id}>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.drink}</TableCell>
+                  <TableCell>{item.size}</TableCell>
+                  <TableCell>
                     <FormEditDialog item={item} rFunc={handleRefreshItems} />{" "}
                     <DeleteIcon
                       onClick={async () => {
@@ -108,11 +125,11 @@ export default function OrderPage(props) {
                         handleRefreshItems();
                       }}
                     />
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         )}
       </article>
     </Layout>
