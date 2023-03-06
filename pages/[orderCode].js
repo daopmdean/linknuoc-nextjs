@@ -36,18 +36,8 @@ export async function getServerSideProps({ params }) {
 }
 
 export default function OrderPage(props) {
-  // const [hydrated, setHydrated] = useState(false);
   const [order, setOrder] = useState(props.order);
   const [items, setItems] = useState(props.items);
-  console.log(order);
-  console.log(items);
-  // useEffect(() => {
-  //   setHydrated(true);
-  // }, []);
-
-  // if (!hydrated) {
-  //   return null;
-  // }
 
   const handleDelete = async (id) => {
     await deleteOrderItems(id);
@@ -121,8 +111,10 @@ export default function OrderPage(props) {
                     <FormEditDialog item={item} rFunc={handleRefreshItems} />{" "}
                     <DeleteIcon
                       onClick={async () => {
-                        await handleDelete(item.id);
-                        handleRefreshItems();
+                        if (confirm("Sure to delete?") == true) {
+                          await handleDelete(item.id);
+                          handleRefreshItems();
+                        }
                       }}
                     />
                   </TableCell>
