@@ -1,9 +1,18 @@
 import { API_URL } from "../common/constant";
 
 export async function getOrderItems(orderCode) {
-  const orderItemFetchRes = await fetch(`${API_URL}/orders/${orderCode}/items`);
-  const orderItemRes = await orderItemFetchRes.json();
-  return orderItemRes.data;
+  try {
+    const orderItemFetchRes = await fetch(
+      `${API_URL}/orders/${orderCode}/items`
+    );
+    const orderItemRes = await orderItemFetchRes.json();
+    return orderItemRes.data;
+  } catch (error) {
+    return {
+      status: "ERROR",
+      message: error.message,
+    };
+  }
 }
 
 export async function createOrderItems(orderItem) {
@@ -20,7 +29,9 @@ export async function createOrderItems(orderItem) {
     }),
   };
 
-  await fetch(`${API_URL}/items`, requestOptions);
+  try {
+    await fetch(`${API_URL}/items`, requestOptions);
+  } catch (err) {}
 }
 
 export async function updateOrderItems(orderItem) {
@@ -37,12 +48,17 @@ export async function updateOrderItems(orderItem) {
     }),
   };
 
-  await fetch(`${API_URL}/items/${orderItem.id}`, requestOptions);
+  try {
+    await fetch(`${API_URL}/items/${orderItem.id}`, requestOptions);
+  } catch (err) {}
 }
 
 export async function deleteOrderItems(id) {
   const requestOptions = {
     method: "DELETE",
   };
-  await fetch(`${API_URL}/items/${id}`, requestOptions);
+
+  try {
+    await fetch(`${API_URL}/items/${id}`, requestOptions);
+  } catch (err) {}
 }
