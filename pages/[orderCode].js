@@ -25,7 +25,7 @@ export async function getServerSideProps({ params }) {
     };
   }
 
-  const orderItems = await getOrderItems(orderRes.data.orderCode);
+  const orderItems = await getOrderItems(orderRes.data[0].orderCode);
 
   return {
     props: {

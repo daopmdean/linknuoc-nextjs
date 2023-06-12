@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { getMenuRes } from "../../services/MenuService";
 import Layout from "../../components/layout";
+import { getMenuItems } from "../../services/MenuItemService";
 
 export async function getServerSideProps({ params }) {
   const menuRes = await getMenuRes(params.menuCode);
@@ -18,8 +19,8 @@ export async function getServerSideProps({ params }) {
     };
   }
 
-  const menuItems = await getMenuItems(menuRes.data.menuCode);
-
+  const menuItems = await getMenuItems(menuRes.data[0].menuCode);
+  console.log(menuItems);
   return {
     props: {
       menu: menuRes.data,
@@ -28,14 +29,14 @@ export async function getServerSideProps({ params }) {
   };
 }
 
-export default function OrderPage(props) {
+export default function MenuPage(props) {
   const [menu, setMenu] = useState(props.menu);
   const [items, setItems] = useState(props.items);
 
   return (
     <Layout>
       <Head>
-        <title>Link nước</title>
+        <title>Xem Menu</title>
       </Head>
       <article>
         <h1>
@@ -64,7 +65,7 @@ export default function OrderPage(props) {
             <TableBody>
               {items?.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.itemName}</TableCell>
                   <TableCell>{item.drink}</TableCell>
                   <TableCell>{item.size}</TableCell>
                 </TableRow>
