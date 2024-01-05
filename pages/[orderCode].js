@@ -29,7 +29,7 @@ export async function getServerSideProps({ params }) {
 
   return {
     props: {
-      order: orderRes.data,
+      order: orderRes.data[0],
       items: orderItems,
     },
   };
@@ -44,7 +44,9 @@ export default function OrderPage(props) {
   };
 
   const handleRefreshItems = async () => {
+    console.log("--------referesh");
     const orderItems = await getOrderItems(order.orderCode);
+    console.log("--------", orderItems);
     setItems(orderItems);
   };
 

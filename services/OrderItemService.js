@@ -30,7 +30,7 @@ export async function createOrderItems(orderItem) {
   };
 
   try {
-    await fetch(`${API_URL}/items`, requestOptions);
+    await fetch(`${API_URL}/orders/items`, requestOptions);
   } catch (err) {}
 }
 
@@ -49,7 +49,7 @@ export async function updateOrderItems(orderItem) {
   };
 
   try {
-    await fetch(`${API_URL}/items/${orderItem.id}`, requestOptions);
+    await fetch(`${API_URL}/orders/items/${orderItem.id}`, requestOptions);
   } catch (err) {}
 }
 
@@ -59,6 +59,6 @@ export async function deleteOrderItems(id) {
   };
 
   try {
-    await fetch(`${API_URL}/items/${id}`, requestOptions);
+    await fetch(`${API_URL}/orders/items/${id}`, requestOptions);
   } catch (err) {}
 }
