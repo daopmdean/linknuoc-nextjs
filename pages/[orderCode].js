@@ -44,9 +44,7 @@ export default function OrderPage(props) {
   };
 
   const handleRefreshItems = async () => {
-    console.log("--------referesh");
     const orderItems = await getOrderItems(order.orderCode);
-    console.log("--------", orderItems);
     setItems(orderItems);
   };
 
