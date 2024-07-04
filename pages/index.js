@@ -36,7 +36,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by phamminhdao.com
+          Powered by box-api.com
         </a>
       </footer>
 
