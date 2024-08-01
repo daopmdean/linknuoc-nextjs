@@ -10,38 +10,50 @@ import { createOrderItems } from "../services/OrderItemService";
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
 
 export const phucLongDrinks = [
-  { label: "Hồng Trà Caramel Dừa Đá Xay", year: 1994 },
-  { label: "Hồng Trà Sữa Caramel", year: 1972 },
-  { label: "Trà Ô Long Dừa Caramel", year: 1974 },
-  { label: "Nhãn Đá Xay", year: 2008 },
-  { label: "Trà Ô Long Mãng Cầu", year: 1957 },
-  { label: "Hồng Trà Chanh", year: 1994 },
+  { label: "Silky Bưởi Ô Long Lài", year: 1994 },
+  { label: "Lục Trà Sữa Tân Cương Thạch Konjac", year: 1994 },
+  { label: "Lục Trà Tân Cương Mận Đỏ", year: 1994 },
+  { label: "Trà Bưởi Ô Long Lài", year: 1994 },
+  { label: "Trà Sữa Ô Long Lài Thạch Konjac", year: 1994 },
+
+  { label: "Trà Sữa Phúc Long", year: 1993 },
+  { label: "Trà Sữa Bá Tước", year: 1993 },
+  { label: "Trà Vải Sen", year: 2001 },
+  { label: "Trà Nhãn Lài", year: 1994 },
+  { label: "Trà Ô Long Dâu", year: 1994 },
   { label: "Trà Sữa Matcha", year: 2003 },
+
+  { label: "Hồng Trà Chanh", year: 1994 },
   { label: "Hồng Trà Đào Sữa", year: 1966 },
-  { label: "Chanh Đá Xay", year: 1999 },
-  { label: "Matcha Đá Xay", year: 2001 },
-  { label: "Oreo Cà Phê Sữa Đá Xay", year: 1994 },
-  { label: "Cà Phê Đá Xay", year: 1972 },
-  { label: "Trà Sữa Berry Berry", year: 1974 },
-  { label: "Trà Đào Đá Xay", year: 2008 },
+  { label: "Hồng Trà Đác Cam Đá Xay", year: 2003 },
+  { label: "Hồng Trà Sữa", year: 1974 },
+  { label: "Hồng Trà Đào", year: 1957 },
+
+  { label: "Lucky Tea", year: 1972 },
+  { label: "Trà Lài Đác Thơm", year: 1999 },
+  { label: "Trà Ô Long Dừa Caramel", year: 1974 },
+  { label: "Trà Ô Long Sữa", year: 2003 },
+  { label: "Trà Ô Long Mãng Cầu", year: 1957 },
+  { label: "Cappuccino", year: 1994 },
+
   { label: "Sữa Chua Phúc Bồn Tử Đác Cam", year: 1957 },
   { label: "Sữa Chua Xoài Đác Thơm", year: 1993 },
-  { label: "Cappuccino", year: 1994 },
-  { label: "Hồng Trà Đác Cam Đá Xay", year: 2003 },
-  { label: "Hoa Tuyết Berry Berry", year: 1966 },
-  { label: "Latte", year: 1999 },
-  { label: "Phin Sữa Đá", year: 2001 },
-  { label: "Phin Đen Đá", year: 1966 },
-  { label: "Trà Lài Đác Thơm", year: 1999 },
-  { label: "Trà Nhãn Sen", year: 2001 },
-  { label: "Trà Vải Lài", year: 1994 },
-  { label: "Lucky Tea", year: 1972 },
-  { label: "Hồng Trà Sữa", year: 1974 },
-  { label: "Vanilla Latte", year: 2008 },
-  { label: "Hồng Trà Đào", year: 1957 },
-  { label: "Trà Sữa Phúc Long", year: 1993 },
-  { label: "Trà Ô Long Dâu", year: 1994 },
-  { label: "Trà Ô Long Sữa", year: 2003 },
+
+  // { label: "Hồng Trà Caramel Dừa Đá Xay", year: 1994 },
+  // { label: "Hồng Trà Sữa Caramel", year: 1972 },
+  // { label: "Chanh Đá Xay", year: 1999 },
+  // { label: "Matcha Đá Xay", year: 2001 },
+  // { label: "Oreo Cà Phê Sữa Đá Xay", year: 1994 },
+  // { label: "Trà Sữa Berry Berry", year: 1974 },
+  // { label: "Trà Đào Đá Xay", year: 2008 },
+
+  // { label: "Hoa Tuyết Berry Berry", year: 1966 },
+  // { label: "Latte", year: 1999 },
+  // { label: "Phin Sữa Đá", year: 2001 },
+  // { label: "Phin Đen Đá", year: 1966 },
+  // { label: "Vanilla Latte", year: 2008 },
+  // { label: "Nhãn Đá Xay", year: 2008 },
+  // { label: "Cà Phê Đá Xay", year: 1972 },
 ];
 
 export default function FormDialog({ orderCode, rFunc }) {
@@ -92,7 +104,7 @@ export default function FormDialog({ orderCode, rFunc }) {
         <DialogContent>
           <DialogContentText>
             Sữa mẹ là thức ăn tốt nhất cho sự phát triển của trẻ sơ sinh và trẻ
-            nhỏ. Và ba của đứa trẻ,...
+            nhỏ. And his/her father,...
           </DialogContentText>
           <TextField
             autoFocus
