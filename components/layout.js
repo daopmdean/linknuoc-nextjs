@@ -1,12 +1,10 @@
-import Head from "next/head";
 import styles from "./layout.module.css";
+import SEO from './SEO';
 
-export default function Layout({ children, home }) {
+export default function Layout({ children, home, seo }) {
   return (
-    <div className={styles.container}>
-      <Head>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <div className={styles.layoutWrapper}>
+      <SEO {...seo} />
       <main>{children}</main>
     </div>
   );
