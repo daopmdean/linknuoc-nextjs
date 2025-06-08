@@ -20,7 +20,7 @@ export default function Home() {
           </p>
 
           <div className={styles.grid}>
-            <Link href="/create-link" className={styles.card}>
+            <Link href="/create-order" className={styles.card}>
               <h3>Tạo Link &rarr;</h3>
               <p>Tạo link nước và gửi đến với mọi người</p>
             </Link>
