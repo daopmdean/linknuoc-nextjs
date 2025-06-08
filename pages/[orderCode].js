@@ -91,7 +91,7 @@ export default function OrderPage(props) {
           {items == null ? (
             <Typography variant="body2" color="text.secondary"><i>No drink yet</i></Typography>
           ) : (
-            <TableContainer component={Paper} elevation={1}>
+            <TableContainer component={Paper} elevation={1} sx={{ borderRadius: 3, boxShadow: '0 4px 24px 0 rgba(25, 118, 210, 0.08)' }}>
               <Table>
                 <TableHead>
                   <TableRow>
@@ -105,7 +105,14 @@ export default function OrderPage(props) {
                   {items?.map((item, idx) => (
                     <TableRow
                       key={item.id}
-                      sx={{ backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f6ff' }}
+                      sx={{
+                        backgroundColor: idx % 2 === 0 ? '#fff' : '#f0f6ff',
+                        transition: 'background 0.2s',
+                        '&:hover': {
+                          backgroundColor: '#e3f0fc',
+                        },
+                        '&:last-child td, &:last-child th': { borderBottom: 0 },
+                      }}
                     >
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.drink}</TableCell>

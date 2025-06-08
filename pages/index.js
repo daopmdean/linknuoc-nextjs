@@ -34,7 +34,7 @@ export default function Home() {
 
         <footer>
           <a
-            href="https://phamminhdao.com"
+            href="https://box-api.com"
             target="_blank"
             rel="noopener noreferrer"
           >

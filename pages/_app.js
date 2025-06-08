@@ -23,7 +23,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: `'Poppins', 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif`,
+    // fontFamily: `'Poppins', 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif`,
   },
 });
 
