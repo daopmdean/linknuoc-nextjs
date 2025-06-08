@@ -74,6 +74,7 @@ export default function FormEditDialog(props) {
             options={phucLongDrinks}
             sx={{ width: 400 }}
             onChange={handleDrinkChange}
+            defaultValue={drink}
             renderInput={(params) => (
               <TextField {...params} label="Bạn uống món gì" />
             )}

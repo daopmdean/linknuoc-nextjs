@@ -102,8 +102,11 @@ export default function OrderPage(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {items?.map((item) => (
-                    <TableRow key={item.id}>
+                  {items?.map((item, idx) => (
+                    <TableRow
+                      key={item.id}
+                      sx={{ backgroundColor: idx % 2 === 0 ? '#fff' : '#f8f6ff' }}
+                    >
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.drink}</TableCell>
                       <TableCell>{item.size}</TableCell>
