@@ -15,6 +15,11 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TableContainer,
+  Paper,
+  Typography,
+  Box,
+  IconButton,
 } from "@mui/material";
 
 export async function getServerSideProps({ params }) {
@@ -53,77 +58,84 @@ export default function OrderPage(props) {
       <Head>
         <title>Link nước</title>
       </Head>
-      <article>
-        <h1>
-          <i>{order.title}</i>
-        </h1>
-        <h1>
-          Link menu ở đây:{" "}
-          <a href={order.drinkLink} target="_blank">
-            {order.drinkLink}
-          </a>
-        </h1>
-        {order?.deadline && (
-          <h1>
-            Link sẽ đóng vào lúc{" "}
-            {moment(order?.deadline).format("HH:mm:ss DD/MM/YYYY")}
-          </h1>
-        )}
-        <Grid container justifyContent="flex-end" spacing={2}>
-          <Grid item>
-            <FormDialog
-              orderCode={order.orderCode}
-              rFunc={handleRefreshItems}
-            />
+      <Box maxWidth="md" mx="auto" mt={4}>
+        <Paper elevation={3} sx={{ p: 4 }}>
+          <Typography variant="h4" component="h1" gutterBottom fontWeight={700}>
+            <i>{order.title}</i>
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+            Link menu ở đây: {" "}
+            <a href={order.drinkLink} target="_blank" rel="noopener noreferrer" style={{ color: '#1976d2', textDecoration: 'underline' }}>
+              {order.drinkLink}
+            </a>
+          </Typography>
+          {order?.deadline && (
+            <Typography variant="body1" color="text.secondary" gutterBottom>
+              Link sẽ đóng vào lúc {moment(order?.deadline).format("HH:mm:ss DD/MM/YYYY")}
+            </Typography>
+          )}
+          <Grid container justifyContent="flex-end" spacing={2} mb={2}>
+            <Grid item>
+              <FormDialog orderCode={order.orderCode} rFunc={handleRefreshItems} />
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleRefreshItems}
+              >
+                Refresh
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Button
-              variant="contained"
-              onClick={() => {
-                handleRefreshItems();
-              }}
-            >
-              Refresh
-            </Button>
-          </Grid>
-        </Grid>
-
-        {items == null ? (
-          <i>No drink yet</i>
-        ) : (
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Tên</TableCell>
-                <TableCell>Nước</TableCell>
-                <TableCell>Size</TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {items?.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.drink}</TableCell>
-                  <TableCell>{item.size}</TableCell>
-                  <TableCell>
-                    <FormEditDialog item={item} rFunc={handleRefreshItems} />{" "}
-                    <DeleteIcon
-                      onClick={async () => {
-                        if (confirm("Sure to delete?") == true) {
-                          await handleDelete(item.id);
-                          handleRefreshItems();
-                        }
-                      }}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </article>
+          {items == null ? (
+            <Typography variant="body2" color="text.secondary"><i>No drink yet</i></Typography>
+          ) : (
+            <TableContainer component={Paper} elevation={1}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell><b>Tên</b></TableCell>
+                    <TableCell><b>Nước</b></TableCell>
+                    <TableCell><b>Size</b></TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {items?.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.drink}</TableCell>
+                      <TableCell>{item.size}</TableCell>
+                      <TableCell>
+                        <Grid container spacing={1} alignItems="center">
+                          <Grid item>
+                            <FormEditDialog item={item} rFunc={handleRefreshItems} />
+                          </Grid>
+                          <Grid item>
+                            <IconButton
+                              color="error"
+                              onClick={async () => {
+                                if (confirm("Sure to delete?") == true) {
+                                  await handleDelete(item.id);
+                                  handleRefreshItems();
+                                }
+                              }}
+                              size="small"
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </Grid>
+                        </Grid>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </Paper>
+      </Box>
     </Layout>
   );
 }
