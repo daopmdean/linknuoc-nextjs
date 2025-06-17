@@ -120,7 +120,7 @@ export default function OrderPage(props) {
                       <TableCell>
                         <Grid container spacing={1} alignItems="center">
                           <Grid item>
-                            <FormEditDialog item={item} rFunc={handleRefreshItems} />
+                            <FormEditDialog menuCode={order.menuCode} item={item} rFunc={handleRefreshItems} />
                           </Grid>
                           <Grid item>
                             <IconButton

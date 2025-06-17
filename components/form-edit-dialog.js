@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -8,13 +8,27 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { updateOrderItems } from "../services/OrderItemService";
 import EditIcon from "@mui/icons-material/Edit";
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
-import { phucLongDrinks } from "./form-dialog";
+import { phucLongDrinks, theCoffeHouseDrinks, katinatDrinks } from "./form-dialog";
 
 export default function FormEditDialog(props) {
+  const [menuCode, setMenuCode] = useState(props.menuCode);
   const [name, setName] = useState(props.item.name);
   const [drink, setDrink] = useState(props.item.drink);
   const [size, setSize] = useState(props.item.size);
   const [open, setOpen] = useState(false);
+
+  const drinkOptions = useMemo(() => {
+    switch (menuCode) {
+      case "phuclong":
+        return phucLongDrinks;
+      case "thecoffeehouse":
+        return theCoffeHouseDrinks;
+      case "katinat":
+        return katinatDrinks;
+      default:
+        return []; // fallback nếu không khớp gì
+    }
+  }, [menuCode]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -71,7 +85,7 @@ export default function FormEditDialog(props) {
           <Autocomplete
             disablePortal
             id="combo-box-demo"
-            options={phucLongDrinks}
+            options={drinkOptions}
             sx={{ width: 400 }}
             onChange={handleDrinkChange}
             defaultValue={drink}
