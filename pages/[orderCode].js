@@ -30,7 +30,7 @@ export async function getServerSideProps({ params }) {
     };
   }
 
-  const orderItems = await getOrderItems(orderRes.data[0].orderCode);
+  const orderItems = await getOrderItems(orderRes.data[0].orderCode) || null;
 
   return {
     props: {
@@ -76,7 +76,7 @@ export default function OrderPage(props) {
           )}
           <Grid container justifyContent="flex-end" spacing={2} mb={2}>
             <Grid item>
-              <FormDialog orderCode={order.orderCode} rFunc={handleRefreshItems} />
+              <FormDialog orderCode={order.orderCode} menuCode={order.menuCode} rFunc={handleRefreshItems} />
             </Grid>
             <Grid item>
               <Button
