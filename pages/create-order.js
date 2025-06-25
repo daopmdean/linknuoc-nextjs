@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import Layout from '../components/layout';
 import {
   Box,
   Button,
-  MenuItem,
   Paper,
   Stack,
   TextField,
@@ -13,20 +11,13 @@ import {
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-
-const statusOptions = [
-  'draft',
-  'active',
-  'processing',
-  'completed',
-  'archived',
-];
+import Layout from '../components/layout';
+import OrderService from '../services/OrderService';
 
 export default function CreateOrderPage() {
   const [form, setForm] = useState({
     title: '',
     note: '',
-    status: 'draft',
     drinkLink: '',
     deadline: null,
   });
@@ -39,10 +30,18 @@ export default function CreateOrderPage() {
     setForm({ ...form, deadline: date });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // TODO: Call API to create order
     console.log('Order form data:', form);
+
+    try {
+      const { token } = await OrderService.login(form.username, form.password);
+      Cookies.set('token', token, { expires: 7 }); // Save token for 7 days
+      router.push('/'); // Redirect to homepage on success
+    } catch (err) {
+    } finally {
+    }
   };
 
   return (
@@ -76,21 +75,6 @@ export default function CreateOrderPage() {
                 minRows={3}
                 variant="outlined"
               />
-              <TextField
-                select
-                label="Trạng thái"
-                name="status"
-                value={form.status}
-                onChange={handleChange}
-                fullWidth
-                variant="outlined"
-              >
-                {statusOptions.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option.charAt(0).toUpperCase() + option.slice(1)}
-                  </MenuItem>
-                ))}
-              </TextField>
               <TextField
                 label="Link menu nước"
                 name="drinkLink"
