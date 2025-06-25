@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FormDialog from "../components/form-dialog";
 import FormEditDialog from "../components/form-edit-dialog";
 import { useEffect, useState } from "react";
-import { getOrderRes } from "../services/OrderService";
+import OrderService from '../services/OrderService';
 import {
   Button,
   Grid,
@@ -23,7 +23,7 @@ import {
 } from "@mui/material";
 
 export async function getServerSideProps({ params }) {
-  const orderRes = await getOrderRes(params.orderCode);
+  const orderRes = await OrderService.getOrderRes(params.orderCode);
   if (orderRes.status !== "SUCCESS") {
     return {
       notFound: true,
