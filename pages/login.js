@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 import Layout from '../components/layout';
+import LoginService from '../services/LoginService';
 import {
+  Alert,
   Box,
   Button,
+  CircularProgress,
   Paper,
   Stack,
   TextField,
@@ -15,15 +20,27 @@ export default function LoginPage() {
     username: '',
     password: '',
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Add authentication logic here
-    console.log('Login form data:', form);
+    setLoading(true);
+    setError('');
+    try {
+      const { token } = await LoginService.login(form.username, form.password);
+      Cookies.set('token', token, { expires: 7 }); // Save token for 7 days
+      router.push('/'); // Redirect to homepage on success
+    } catch (err) {
+      setError(err.message || 'An unexpected error occurred.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -38,6 +55,7 @@ export default function LoginPage() {
           </Typography>
           <form onSubmit={handleSubmit}>
             <Stack spacing={3}>
+              {error && <Alert severity="error">{error}</Alert>}
               <TextField
                 label="Tên đăng nhập"
                 name="username"
@@ -46,6 +64,7 @@ export default function LoginPage() {
                 fullWidth
                 required
                 variant="outlined"
+                disabled={loading}
               />
               <TextField
                 label="Mật khẩu"
@@ -56,9 +75,17 @@ export default function LoginPage() {
                 fullWidth
                 required
                 variant="outlined"
+                disabled={loading}
               />
-              <Button type="submit" variant="contained" color="primary" fullWidth size="large">
-                Đăng nhập
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                size="large"
+                disabled={loading}
+              >
+                {loading ? <CircularProgress size={24} color="inherit" /> : 'Đăng nhập'}
               </Button>
             </Stack>
           </form>
