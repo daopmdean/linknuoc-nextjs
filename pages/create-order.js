@@ -4,9 +4,9 @@ import Layout from '../components/layout';
 import {
   Box,
   Button,
-  Grid,
   MenuItem,
   Paper,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
@@ -56,73 +56,61 @@ export default function CreateOrderPage() {
             Tạo đơn nước mới
           </Typography>
           <form onSubmit={handleSubmit}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <TextField
-                  label="Tiêu đề"
-                  name="title"
-                  value={form.title}
-                  onChange={handleChange}
-                  fullWidth
-                  required
-                  variant="outlined"
+            <Stack spacing={3}>
+              <TextField
+                label="Tiêu đề"
+                name="title"
+                value={form.title}
+                onChange={handleChange}
+                fullWidth
+                required
+                variant="outlined"
+              />
+              <TextField
+                label="Ghi chú"
+                name="note"
+                value={form.note}
+                onChange={handleChange}
+                fullWidth
+                multiline
+                minRows={3}
+                variant="outlined"
+              />
+              <TextField
+                select
+                label="Trạng thái"
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+                fullWidth
+                variant="outlined"
+              >
+                {statusOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                label="Link menu nước"
+                name="drinkLink"
+                value={form.drinkLink}
+                onChange={handleChange}
+                fullWidth
+                variant="outlined"
+              />
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                  label="Hạn chót đặt nước"
+                  value={form.deadline}
+                  onChange={handleDateChange}
+                  renderInput={(params) => <TextField {...params} fullWidth variant="outlined" />}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Ghi chú"
-                  name="note"
-                  value={form.note}
-                  onChange={handleChange}
-                  fullWidth
-                  multiline
-                  minRows={3}
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  select
-                  label="Trạng thái"
-                  name="status"
-                  value={form.status}
-                  onChange={handleChange}
-                  fullWidth
-                  variant="outlined"
-                >
-                  {statusOptions.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option.charAt(0).toUpperCase() + option.slice(1)}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Link menu nước"
-                  name="drinkLink"
-                  value={form.drinkLink}
-                  onChange={handleChange}
-                  fullWidth
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DateTimePicker
-                    label="Hạn chót đặt nước"
-                    value={form.deadline}
-                    onChange={handleDateChange}
-                    renderInput={(params) => <TextField {...params} fullWidth variant="outlined" />}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={12}>
-                <Button type="submit" variant="contained" color="primary" fullWidth size="large">
-                  Tạo đơn
-                </Button>
-              </Grid>
-            </Grid>
+              </LocalizationProvider>
+              <Button type="submit" variant="contained" color="primary" fullWidth size="large">
+                Tạo đơn
+              </Button>
+            </Stack>
           </form>
         </Paper>
       </Box>
