@@ -1,18 +1,29 @@
 import Cookies from 'js-cookie';
+import { API_URL } from "../common/constant";
 
 const login = async (username, password) => {
-  // TODO: Replace with actual API call to your authentication endpoint
-  // For demonstration purposes, we'll simulate an API call
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (username === 'admin' && password === 'password') {
-        const fakeToken = 'fake-jwt-token-for-demonstration';
-        resolve({ token: fakeToken });
-      } else {
-        reject(new Error('Invalid username or password'));
-      }
-    }, 1000); // Simulate network delay
-  });
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: username,
+      password: password,
+    }),
+  };
+
+  try {
+    const loginFetchRes = await fetch(`${API_URL}/login`, requestOptions);
+    const loginRes = await loginFetchRes.json();
+    if (loginRes.status !== "SUCCESS") {
+      throw new Error("Invalid username or password");
+    }
+
+    return loginRes.data[0]
+  } catch (err) {
+    throw new Error("Invalid username or password");
+  }
 };
 
 const logout = () => {
