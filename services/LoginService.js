@@ -26,6 +26,14 @@ const login = async (username, password) => {
   }
 };
 
+const register = async (data) => {
+  console.log(data);
+  if (data.username === "good") {
+    return {token:"shit"}
+  }
+  throw new Error("register faileddd");
+};
+
 const logout = () => {
   Cookies.remove('token');
   // a good place to redirect the user to the login page
@@ -37,6 +45,7 @@ const getToken = () => {
 
 const LoginService = {
   login,
+  register,
   logout,
   getToken,
 };
