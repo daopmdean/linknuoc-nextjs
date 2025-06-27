@@ -2,8 +2,6 @@ import { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
-import Layout from '../components/layout';
-import LoginService from '../services/LoginService';
 import {
   Alert,
   Box,
@@ -14,6 +12,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import Layout from '../components/layout';
+import LoginService from '../services/LoginService';
 
 export default function LoginPage() {
   const [form, setForm] = useState({

@@ -32,6 +32,42 @@ const getMenusRes = async () => {
         menuLink: 'https://juicebar.com/menu',
         username: 'carol',
       },
+      {
+        id: 4,
+        menuName: 'Trà Sữa House',
+        menuLink: 'https://trasuahaus.com/menu',
+        username: 'alice',
+      },
+      {
+        id: 5,
+        menuName: 'Coffee Time',
+        menuLink: 'https://coffeetime.com/menu',
+        username: 'bob',
+      },
+      {
+        id: 6,
+        menuName: 'Juice Bar',
+        menuLink: 'https://juicebar.com/menu',
+        username: 'carol',
+      },
+      {
+        id: 7,
+        menuName: 'Trà Sữa House',
+        menuLink: 'https://trasuahaus.com/menu',
+        username: 'alice',
+      },
+      {
+        id: 8,
+        menuName: 'Coffee Time',
+        menuLink: 'https://coffeetime.com/menu',
+        username: 'bob',
+      },
+      {
+        id: 9,
+        menuName: 'Juice Bar',
+        menuLink: 'https://juicebar.com/menu',
+        username: 'carol',
+      },
     ],
   };
 };
