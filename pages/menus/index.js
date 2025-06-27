@@ -1,6 +1,4 @@
 import Head from "next/head";
-import Layout from "../../components/layout";
-import { getMenusRes } from "../../services/MenuService";
 import { useState } from "react";
 import {
   Table,
@@ -9,9 +7,11 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import Layout from "../../components/layout";
+import MenuService from "../../services/MenuService";
 
 export async function getServerSideProps({ params }) {
-  const menusRes = await getMenusRes();
+  const menusRes = await MenuService.getMenusRes();
   if (menusRes.status !== "SUCCESS") {
     return {
       notFound: true,

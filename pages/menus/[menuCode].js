@@ -7,19 +7,19 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { getMenuRes } from "../../services/MenuService";
 import Layout from "../../components/layout";
-import { getMenuItems } from "../../services/MenuItemService";
+import MenuService from "../../services/MenuService";
+import MenuItemService from "../../services/MenuItemService";
 
 export async function getServerSideProps({ params }) {
-  const menuRes = await getMenuRes(params.menuCode);
+  const menuRes = await MenuService.getMenuRes(params.menuCode);
   if (menuRes.status !== "SUCCESS") {
     return {
       notFound: true,
     };
   }
 
-  const menuItems = await getMenuItems(menuRes.data[0].menuCode);
+  const menuItems = await MenuItemService.getMenuItems(menuRes.data[0].menuCode);
   console.log(menuItems);
   return {
     props: {

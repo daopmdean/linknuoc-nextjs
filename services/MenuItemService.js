@@ -1,6 +1,6 @@
 import { API_URL } from "../common/constant";
 
-export async function getMenuItems(menuCode) {
+const getMenuItems = async (menuCode) => {
   try {
     const menuItemFetchRes = await fetch(`${API_URL}/menus/${menuCode}/items`);
     const menuItemRes = await menuItemFetchRes.json();
@@ -11,4 +11,10 @@ export async function getMenuItems(menuCode) {
       message: err.message,
     };
   }
-}
+};
+
+const MenuItemService = {
+  getMenuItems,
+};
+
+export default MenuItemService;
