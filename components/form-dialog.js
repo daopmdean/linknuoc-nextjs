@@ -6,7 +6,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { createOrderItems } from "../services/OrderItemService";
+import OrderItemService from "../services/OrderItemService";
+
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
 
 export const phucLongDrinks = [
@@ -204,7 +205,7 @@ export default function FormDialog({ orderCode, menuCode, rFunc }) {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    await createOrderItems({
+    await OrderItemService.createOrderItems({
       orderCode,
       name,
       drink,

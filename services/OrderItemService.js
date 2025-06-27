@@ -1,6 +1,6 @@
 import { API_URL } from "../common/constant";
 
-export async function getOrderItems(orderCode) {
+const getOrderItems = async (orderCode) => {
   try {
     const orderItemFetchRes = await fetch(
       `${API_URL}/orders/${orderCode}/items`
@@ -13,9 +13,9 @@ export async function getOrderItems(orderCode) {
       message: error.message,
     };
   }
-}
+};
 
-export async function createOrderItems(orderItem) {
+const createOrderItems = async (orderItem) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -32,9 +32,9 @@ export async function createOrderItems(orderItem) {
   try {
     await fetch(`${API_URL}/orders/items`, requestOptions);
   } catch (err) {}
-}
+};
 
-export async function updateOrderItems(orderItem) {
+const updateOrderItems = async (orderItem) => {
   const requestOptions = {
     method: "PUT",
     headers: {
@@ -51,9 +51,9 @@ export async function updateOrderItems(orderItem) {
   try {
     await fetch(`${API_URL}/orders/items/${orderItem.id}`, requestOptions);
   } catch (err) {}
-}
+};
 
-export async function deleteOrderItems(id) {
+const deleteOrderItems = async (id) => {
   const requestOptions = {
     method: "DELETE",
   };
@@ -61,4 +61,13 @@ export async function deleteOrderItems(id) {
   try {
     await fetch(`${API_URL}/orders/items/${id}`, requestOptions);
   } catch (err) {}
-}
+};
+
+const OrderItemService = {
+  getOrderItems,
+  createOrderItems,
+  updateOrderItems,
+  deleteOrderItems,
+};
+
+export default OrderItemService;

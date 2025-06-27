@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
 import Head from "next/head";
-import Layout from "../components/layout";
-import { deleteOrderItems, getOrderItems } from "../services/OrderItemService";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Button,
@@ -18,8 +16,10 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
+import Layout from "../components/layout";
 import FormDialog from "../components/form-dialog";
 import FormEditDialog from "../components/form-edit-dialog";
+import OrderItemService from "../services/OrderItemService";
 import OrderService from '../services/OrderService';
 
 export async function getServerSideProps({ params }) {
@@ -30,7 +30,7 @@ export async function getServerSideProps({ params }) {
     };
   }
 
-  const orderItems = await getOrderItems(orderRes.data[0].orderCode) || null;
+  const orderItems = await OrderItemService.getOrderItems(orderRes.data[0].orderCode) || null;
 
   return {
     props: {
@@ -45,11 +45,11 @@ export default function OrderPage(props) {
   const [items, setItems] = useState(props.items);
 
   const handleDelete = async (id) => {
-    await deleteOrderItems(id);
+    await OrderItemService.deleteOrderItems(id);
   };
 
   const handleRefreshItems = async () => {
-    const orderItems = await getOrderItems(order.orderCode);
+    const orderItems = await OrderItemService.getOrderItems(order.orderCode);
     setItems(orderItems);
   };
 

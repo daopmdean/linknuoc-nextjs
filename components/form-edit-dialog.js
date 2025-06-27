@@ -5,10 +5,10 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { updateOrderItems } from "../services/OrderItemService";
 import EditIcon from "@mui/icons-material/Edit";
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
 import { phucLongDrinks, theCoffeHouseDrinks, katinatDrinks } from "./form-dialog";
+import OrderItemService from "../services/OrderItemService";
 
 export default function FormEditDialog(props) {
   const [menuCode, setMenuCode] = useState(props.menuCode);
@@ -59,7 +59,7 @@ export default function FormEditDialog(props) {
       drink: drink,
       size: size,
     };
-    await updateOrderItems(orderItem);
+    await OrderItemService.updateOrderItems(orderItem);
     await props.rFunc();
     setOpen(false);
   };
