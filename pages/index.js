@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { Typography } from "@mui/material";
 import styles from "../styles/Home.module.css";
 import Layout from '../components/layout';
 import Footer from "../components/footer";
 
 export default function Home() {
-  
+
   const seo = {
     title: 'Linknuoc - Chia sẻ link nước đến với bạn bè & đồng nghiệp',
     description: 'Nền tảng chia sẻ link nước và tạo menu đồ uống cho bạn bè và đồng nghiệp của bạn.',
@@ -15,7 +16,10 @@ export default function Home() {
     <Layout seo={seo}>
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1 className={styles.title}>Chào mừng đến với Linknuoc!</h1>
+          <Typography variant="h2" fontWeight={700} textAlign="center" mb={2} color="primary.main"> 
+            Chào mừng đến với Linknuoc!
+          </Typography>
+          
 
           <p className={styles.description}>
             Nơi chia sẻ link nước đến với bạn bè & đồng nghiệp
