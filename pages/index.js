@@ -1,10 +1,27 @@
 import Link from "next/link";
 import { Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { jwtDecode } from 'jwt-decode';
 import styles from "../styles/Home.module.css";
 import Layout from '../components/layout';
 import Footer from "../components/footer";
 
 export default function Home() {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setUser(decoded || decoded || {});
+      } catch (e) {
+        console.log("error", e);
+        setUser({});
+      }
+    }
+  }, []);
 
   const seo = {
     title: 'Linknuoc - Chia sẻ link nước đến với bạn bè & đồng nghiệp',
@@ -17,8 +34,13 @@ export default function Home() {
       <div className={styles.container}>
         <main className={styles.main}>
           <Typography variant="h2" fontWeight={700} textAlign="center" mb={2} color="primary.main"> 
-            Chào mừng đến với Linknuoc!
+            Chào mừng đến với Linknuoc
           </Typography>
+          {user && (
+            <Typography variant="h6" textAlign="center" color="primary.main" mb={2}>
+              Xin chào <b>{user.username}</b>! Cùng tạo link nước thôi...
+            </Typography>
+          )}
           
 
           <p className={styles.description}>
