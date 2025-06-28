@@ -7,12 +7,15 @@ import {
   Stack,
   TextField,
   Typography,
+  Tooltip,
 } from '@mui/material';
+import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import Layout from '../components/layout';
 import OrderService from '../services/OrderService';
+import { useRouter } from 'next/router';
 
 export default function CreateOrderPage() {
   const [form, setForm] = useState({
@@ -21,6 +24,8 @@ export default function CreateOrderPage() {
     drinkLink: '',
     deadline: null,
   });
+
+  const router = useRouter();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -54,6 +59,18 @@ export default function CreateOrderPage() {
           <Typography variant="h5" fontWeight={700} mb={2} color="primary.main">
             Tạo đơn nước mới
           </Typography>
+          <Tooltip title="click vào đây để chuyển sang trang đăng nhập" placement="bottom" arrow>
+            <Stack direction="row" alignItems="center" spacing={1} sx={{ cursor: 'pointer', mb: 2, display: 'inline-flex' }} onClick={() => router.push('/login')}>
+              <InfoOutlineIcon />
+              <Typography
+                variant="body2"
+                fontStyle="italic"
+                color="text.secondary"
+              >
+                Bạn cần đăng nhập để tạo link nước
+              </Typography>
+            </Stack>
+          </Tooltip>
           <form onSubmit={handleSubmit}>
             <Stack spacing={3}>
               <TextField
