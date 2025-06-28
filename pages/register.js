@@ -146,7 +146,6 @@ export default function RegisterPage() {
                 value={form.dob}
                 onChange={handleChange}
                 fullWidth
-                required
                 variant="outlined"
                 disabled={loading}
                 InputLabelProps={{ shrink: true }}

@@ -77,6 +77,15 @@ export default function LoginPage() {
                 variant="outlined"
                 disabled={loading}
               />
+              <Typography variant="body2" align="left" fontStyle="italic" sx={{ mb: 1 }}>
+                Chưa có tài khoản?{' '}
+                <span
+                  style={{ color: '#1976d2', cursor: 'pointer', textDecoration: 'underline' }}
+                  onClick={() => router.push('/register')}
+                >
+                  Đăng ký tại đây!
+                </span>
+              </Typography>
               <Button
                 type="submit"
                 variant="contained"
@@ -85,7 +94,7 @@ export default function LoginPage() {
                 size="large"
                 disabled={loading}
               >
-                {loading ? <CircularProgress size={24} color="inherit" /> : 'Đăng nhập'}
+                {loading ? <CircularProgress size={24} color="inherit" /> : "Đăng nhập"}
               </Button>
             </Stack>
           </form>
