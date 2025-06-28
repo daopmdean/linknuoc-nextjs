@@ -1,4 +1,5 @@
 import { API_URL } from "../common/constant";
+import LoginService from "./LoginService";
 
 const getOrderRes = async (orderCode) => {
   try {
@@ -13,18 +14,28 @@ const getOrderRes = async (orderCode) => {
 }
 
 const createOrder = async (order) => {
-  // TODO: Replace with actual API call to your authentication endpoint
-  // For demonstration purposes, we'll simulate an API call
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (order.title === 'admin') {
-        const fakeToken = 'fake-jwt-token-for-demonstration';
-        resolve({ token: fakeToken });
-      } else {
-        reject(new Error('Invalid order or password'));
-      }
-    }, 1000); // Simulate network delay
-  });
+  const token = LoginService.getToken();
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": token ? `Bearer ${token}` : "",
+    },
+    body: JSON.stringify(order),
+  };
+
+  try {
+    const orderFetchRes = await fetch(`${API_URL}/orders`, requestOptions);
+    const orderRes = await orderFetchRes.json();
+    if (orderRes.status !== "SUCCESS") {
+      throw new Error("Error creating order");
+    }
+    console.log("orderRes", orderRes.data[0]);
+
+    return orderRes.data[0]
+  } catch (err) {
+    throw new Error("Error creating order");
+  }
 };
 
 const OrderService = {

@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import {
+  Alert,
   Box,
   Button,
   Paper,
@@ -16,6 +17,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import Layout from '../components/layout';
 import OrderService from '../services/OrderService';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 export default function CreateOrderPage() {
   const [form, setForm] = useState({
@@ -26,6 +28,14 @@ export default function CreateOrderPage() {
   });
 
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    setIsAuthenticated(!!token);
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -37,15 +47,23 @@ export default function CreateOrderPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Call API to create order
-    console.log('Order form data:', form);
+    setLoading(true);
+    setError('');
+
+    // Validate deadline
+    if (form.deadline && new Date(form.deadline) < new Date()) {
+      setError('Hạn chót đặt nước phải ở tương lai.');
+      setLoading(false);
+      return;
+    }
 
     try {
-      const { token } = await OrderService.login(form.username, form.password);
-      Cookies.set('token', token, { expires: 7 }); // Save token for 7 days
-      router.push('/'); // Redirect to homepage on success
+      const { orderCode } = await OrderService.createOrder(form);
+      router.push('/'+orderCode); // Redirect to order page
     } catch (err) {
+      setError(err.message || 'An unexpected error occurred.');
     } finally {
+      setLoading(false);
     }
   };
 
@@ -59,18 +77,20 @@ export default function CreateOrderPage() {
           <Typography variant="h5" fontWeight={700} mb={2} color="primary.main">
             Tạo đơn nước mới
           </Typography>
-          <Tooltip title="click vào đây để chuyển sang trang đăng nhập" placement="bottom" arrow>
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ cursor: 'pointer', mb: 2, display: 'inline-flex' }} onClick={() => router.push('/login')}>
-              <InfoOutlineIcon />
-              <Typography
-                variant="body2"
-                fontStyle="italic"
-                color="text.secondary"
-              >
-                Bạn cần đăng nhập để tạo link nước
-              </Typography>
-            </Stack>
-          </Tooltip>
+          {!isAuthenticated && (
+            <Tooltip title="click vào đây để chuyển sang trang đăng nhập" placement="bottom" arrow>
+              <Stack direction="row" alignItems="center" spacing={1} sx={{ cursor: 'pointer', mb: 2, display: 'inline-flex' }} onClick={() => router.push('/login')}>
+                <InfoOutlineIcon />
+                <Typography
+                  variant="body2"
+                  fontStyle="italic"
+                  color="text.secondary"
+                >
+                  Bạn cần đăng nhập để tạo link nước
+                </Typography>
+              </Stack>
+            </Tooltip>
+          )}
           <form onSubmit={handleSubmit}>
             <Stack spacing={3}>
               <TextField
@@ -81,6 +101,7 @@ export default function CreateOrderPage() {
                 fullWidth
                 required
                 variant="outlined"
+                disabled={loading}
               />
               <TextField
                 label="Ghi chú"
@@ -91,6 +112,7 @@ export default function CreateOrderPage() {
                 multiline
                 minRows={3}
                 variant="outlined"
+                disabled={loading}
               />
               <TextField
                 label="Link menu nước"
@@ -99,16 +121,19 @@ export default function CreateOrderPage() {
                 onChange={handleChange}
                 fullWidth
                 variant="outlined"
+                disabled={loading}
               />
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                   label="Hạn chót đặt nước"
                   value={form.deadline}
                   onChange={handleDateChange}
-                  renderInput={(params) => <TextField {...params} fullWidth variant="outlined" />}
+                  renderInput={(params) => <TextField {...params} fullWidth variant="outlined" disabled={loading} />}
+                  disabled={loading}
                 />
               </LocalizationProvider>
-              <Button type="submit" variant="contained" color="primary" fullWidth size="large">
+              {error && <Alert severity="error">{error}</Alert>}
+              <Button type="submit" variant="contained" color="primary" fullWidth size="large" disabled={loading}>
                 Tạo đơn
               </Button>
             </Stack>
