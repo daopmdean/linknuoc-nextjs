@@ -36,7 +36,7 @@ export default function Home() {
           <Typography variant="h2" fontWeight={700} textAlign="center" mb={2} color="primary.main"> 
             Chào mừng đến với Linknuoc
           </Typography>
-          {user && (
+          {user?.username && (
             <Typography variant="h6" textAlign="center" color="primary.main" mb={2}>
               Xin chào <b>{user.username}</b>! Cùng tạo link nước thôi...
             </Typography>
