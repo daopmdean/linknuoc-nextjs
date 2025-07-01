@@ -86,7 +86,7 @@ export default function CreateOrderPage() {
                   fontStyle="italic"
                   color="text.secondary"
                 >
-                  Bạn cần đăng nhập để tạo link nước
+                  Click vào đây để đăng nhập và tạo link nước
                 </Typography>
               </Stack>
             </Tooltip>

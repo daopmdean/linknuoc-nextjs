@@ -27,11 +27,26 @@ const login = async (username, password) => {
 };
 
 const register = async (data) => {
-  console.log(data);
-  if (data.username === "good") {
-    return {token:"shit"}
+  throw new Error("Register failed, please come back later");
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    const loginFetchRes = await fetch(`${API_URL}/register`, requestOptions);
+    const loginRes = await loginFetchRes.json();
+    if (loginRes.status !== "SUCCESS") {
+      throw new Error("Register failed");
+    }
+
+    return loginRes.data[0]
+  } catch (err) {
+    throw new Error("Register failed");
   }
-  throw new Error("register faileddd");
 };
 
 const logout = () => {
