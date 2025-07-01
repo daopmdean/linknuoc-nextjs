@@ -3,7 +3,7 @@ import Head from 'next/head';
 export default function SEO({ 
   title = 'Linknuoc - Chia sẻ link nước đến với bạn bè & đồng nghiệp',
   description = 'Nền tảng chia sẻ link nước và tạo menu đồ uống cho bạn bè và đồng nghiệp của bạn.',
-  image = '/og-image.jpg',
+  image = '/image.png',
   url = 'https://linknuoc.com',
   type = 'website',
 }) {
