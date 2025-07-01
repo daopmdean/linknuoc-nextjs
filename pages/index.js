@@ -34,7 +34,7 @@ export default function Home() {
       <div className={styles.container}>
         <main className={styles.main}>
           <img
-            src="/Logo.png"
+            src="/image.png"
             alt="Linknuoc Logo"
             style={{ display: 'block', margin: '0 auto', maxWidth: 160, marginBottom: 16 }}
           />
