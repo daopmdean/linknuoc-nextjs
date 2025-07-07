@@ -30,8 +30,17 @@ export async function getServerSideProps({ params }) {
     };
   }
 
-  const orderItems = await OrderItemService.getOrderItems(orderRes.data[0].orderCode) || null;
+  const order = orderRes.data[0];
+  if (order.redirect && order.redirectLink !== "") {
+    return {
+      redirect: {
+        destination: order.redirectLink,
+        permanent: false,
+      },
+    };
+  }
 
+  const orderItems = await OrderItemService.getOrderItems(order.orderCode) || null;
   return {
     props: {
       order: orderRes.data[0],
