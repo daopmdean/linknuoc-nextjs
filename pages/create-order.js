@@ -9,6 +9,8 @@ import {
   TextField,
   Typography,
   Tooltip,
+  Checkbox, // Add Checkbox import
+  FormControlLabel, // Add FormControlLabel import
 } from '@mui/material';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -25,6 +27,8 @@ export default function CreateOrderPage() {
     note: '',
     drinkLink: '',
     deadline: null,
+    redirect: false, // Add redirect field
+    redirectLink: '', // Add redirectLink field
   });
 
   const router = useRouter();
@@ -38,7 +42,11 @@ export default function CreateOrderPage() {
   }, []);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setForm({
+      ...form,
+      [name]: type === 'checkbox' ? checked : value,
+    });
   };
 
   const handleDateChange = (date) => {
@@ -123,6 +131,28 @@ export default function CreateOrderPage() {
                 variant="outlined"
                 disabled={loading}
               />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="redirect"
+                    checked={form.redirect}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                }
+                label="Chuyển tiếp tới link khác"
+              />
+              {form.redirect && (
+                <TextField
+                  label="Link cần chuyển tiếp"
+                  name="redirectLink"
+                  value={form.redirectLink}
+                  onChange={handleChange}
+                  fullWidth
+                  variant="outlined"
+                  disabled={loading}
+                />
+              )}
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                   label="Hạn chót đặt nước"
