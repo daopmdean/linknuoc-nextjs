@@ -29,6 +29,10 @@ export default function Home() {
     url: 'https://linknuoc.com',
   };
 
+  const handleProfileClick = () => {
+    window.location.href = '/profile';
+  };
+
   return (
     <Layout seo={seo}>
       <div className={styles.container}>
@@ -43,7 +47,7 @@ export default function Home() {
           </Typography>
           {user?.username && (
             <Typography variant="h6" textAlign="center" color="primary.main" mb={2}>
-              Xin chào <b>{user.username}</b>! Cùng tạo link nước thôi...
+              Xin chào <b style={{ cursor: 'pointer' }} onClick={handleProfileClick}>{user.username}</b>! Cùng tạo link nước thôi...
             </Typography>
           )}
           
