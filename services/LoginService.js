@@ -27,7 +27,6 @@ const login = async (username, password) => {
 };
 
 const register = async (data) => {
-  throw new Error("Register failed, please come back later");
   const requestOptions = {
     method: "POST",
     headers: {
@@ -36,17 +35,20 @@ const register = async (data) => {
     body: JSON.stringify(data),
   };
 
-  try {
-    const loginFetchRes = await fetch(`${API_URL}/register`, requestOptions);
-    const loginRes = await loginFetchRes.json();
-    if (loginRes.status !== "SUCCESS") {
-      throw new Error("Register failed");
-    }
-
+  const loginFetchRes = await fetch(`${API_URL}/register`, requestOptions);
+  const loginRes = await loginFetchRes.json();
+  if (loginRes.status === "SUCCESS") {
     return loginRes.data[0]
-  } catch (err) {
-    throw new Error("Register failed");
   }
+  if (loginRes.status === "INVALID") {
+    if (loginRes.errors?.[0]?.errCode === "ERROR_EMAIL_EXIST") {
+      throw new Error("Email already exists");
+    } else if (loginRes.errors?.[0]?.errCode === "ERROR_USERNAME_EXIST") {
+      throw new Error("Username already exists");
+    }
+  }
+
+  throw new Error("Registration failed");
 };
 
 const logout = () => {
