@@ -19,6 +19,8 @@ import {
 } from '@mui/material';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -185,30 +187,89 @@ export default function CreateOrderPage() {
         </Paper>
       </Box>
       <Dialog open={showOrderLink} onClose={() => setShowOrderLink(false)}>
-        <DialogTitle>Đơn nước đã được tạo thành công!</DialogTitle>
-        <DialogContent>
-          <Typography gutterBottom>
-            Link nước của bạn là
+        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'success.main', pb: 0 }}>
+          {/* <CheckCircleOutlineIcon color="success" sx={{ fontSize: 32 }} /> */}
+          Đơn nước đã được tạo thành công!
+        </DialogTitle>
+        <DialogContent sx={{ pt: 2, minWidth: 350 }}>
+          <Typography gutterBottom color="text.secondary">
+            Link nước của bạn là:
           </Typography>
-          <Box display="flex" alignItems="center" gap={1}>
-            <Typography variant="body1" fontWeight={700} sx={{ wordBreak: 'break-all' }}>
+          <Box
+            display="flex"
+            alignItems="center"
+            gap={1}
+            sx={{
+              background: '#f0f7fa',
+              borderRadius: 2,
+              px: 2,
+              py: 1,
+              mb: 2,
+              border: '1px solid #b2ebf2',
+            }}
+          >
+            <Typography
+              variant="body1"
+              fontWeight={700}
+              sx={{ wordBreak: 'break-all', flex: 1, color: 'primary.main', fontSize: 16 }}
+            >
               {typeof window !== 'undefined' ? `${window.location.origin}/${createdOrderCode}` : `/${createdOrderCode}`}
             </Typography>
-            <IconButton size="small" onClick={() => {
-              navigator.clipboard.writeText(`${window.location.origin}/${createdOrderCode}`);
-              setCopied(true);
-              setTimeout(() => setCopied(false), 1500);
-            }}>
-              <ContentCopyIcon fontSize="small" />
-            </IconButton>
-            {copied && <Typography variant="caption" color="success.main">Đã copy!</Typography>}
+            <Tooltip title={copied ? 'Đã copy!' : 'Copy'} placement="top">
+              <span>
+                <IconButton size="small" onClick={() => {
+                  navigator.clipboard.writeText(`${window.location.origin}/${createdOrderCode}`);
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 1500);
+                }} color={copied ? 'success' : 'primary'}>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      width: 24,
+                      height: 24,
+                      display: 'inline-block',
+                    }}
+                  >
+                    <ContentCopyIcon
+                      fontSize="small"
+                      sx={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        opacity: copied ? 0 : 1,
+                        transform: copied ? 'scale(0.7)' : 'scale(1)',
+                        transition: 'opacity 0.35s cubic-bezier(0.4,0,0.2,1), transform 0.35s cubic-bezier(0.4,0,0.2,1)',
+                      }}
+                    />
+                    <CheckCircleOutlineIcon
+                      fontSize="small"
+                      color="success"
+                      sx={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        opacity: copied ? 1 : 0,
+                        transform: copied ? 'scale(1.2)' : 'scale(0.7)',
+                        transition: 'opacity 0.35s cubic-bezier(0.4,0,0.2,1), transform 0.35s cubic-bezier(0.4,0,0.2,1)',
+                      }}
+                    />
+                  </Box>
+                </IconButton>
+              </span>
+            </Tooltip>
           </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => router.push('/'+createdOrderCode)} color="primary" variant="contained">
+        <DialogActions sx={{ justifyContent: 'space-between', px: 3, pb: 2 }}>
+          <Button
+            onClick={() => window.open(`${typeof window !== 'undefined' ? window.location.origin : ''}/${createdOrderCode}`, '_blank')}
+            color="primary"
+            variant="contained"
+            startIcon={<OpenInNewOutlinedIcon />}
+            sx={{ minWidth: 140 }}
+          >
             Đi tới đơn nước
           </Button>
-          <Button onClick={() => setShowOrderLink(false)} color="secondary">
+          <Button onClick={() => setShowOrderLink(false)} color="secondary" variant="outlined" sx={{ minWidth: 100 }}>
             Đóng
           </Button>
         </DialogActions>
