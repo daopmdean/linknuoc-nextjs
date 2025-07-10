@@ -11,8 +11,14 @@ import {
   Tooltip,
   Checkbox, // Add Checkbox import
   FormControlLabel, // Add FormControlLabel import
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
 } from '@mui/material';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -35,6 +41,9 @@ export default function CreateOrderPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showOrderLink, setShowOrderLink] = useState(false);
+  const [createdOrderCode, setCreatedOrderCode] = useState('');
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get('token');
@@ -67,7 +76,12 @@ export default function CreateOrderPage() {
 
     try {
       const { orderCode } = await OrderService.createOrder(form);
-      router.push('/'+orderCode); // Redirect to order page
+      if (form.redirect && form.redirectLink) {
+        setCreatedOrderCode(orderCode);
+        setShowOrderLink(true);
+      } else {
+        router.push('/'+orderCode); // Redirect to order page
+      }
     } catch (err) {
       setError(err.message || 'An unexpected error occurred.');
     } finally {
@@ -170,6 +184,35 @@ export default function CreateOrderPage() {
           </form>
         </Paper>
       </Box>
+      <Dialog open={showOrderLink} onClose={() => setShowOrderLink(false)}>
+        <DialogTitle>Đơn nước đã được tạo thành công!</DialogTitle>
+        <DialogContent>
+          <Typography gutterBottom>
+            Link nước của bạn là
+          </Typography>
+          <Box display="flex" alignItems="center" gap={1}>
+            <Typography variant="body1" fontWeight={700} sx={{ wordBreak: 'break-all' }}>
+              {typeof window !== 'undefined' ? `${window.location.origin}/${createdOrderCode}` : `/${createdOrderCode}`}
+            </Typography>
+            <IconButton size="small" onClick={() => {
+              navigator.clipboard.writeText(`${window.location.origin}/${createdOrderCode}`);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 1500);
+            }}>
+              <ContentCopyIcon fontSize="small" />
+            </IconButton>
+            {copied && <Typography variant="caption" color="success.main">Đã copy!</Typography>}
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => router.push('/'+createdOrderCode)} color="primary" variant="contained">
+            Đi tới đơn nước
+          </Button>
+          <Button onClick={() => setShowOrderLink(false)} color="secondary">
+            Đóng
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Layout>
   );
 } 
