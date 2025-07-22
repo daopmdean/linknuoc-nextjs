@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Head from 'next/head';
+import { AppProps } from 'next/app';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -27,10 +28,11 @@ const theme = createTheme({
   },
 });
 
-export default function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
+        <title>Linknuoc</title>
         {/* <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" /> */}
       </Head>
       <ThemeProvider theme={theme}>
