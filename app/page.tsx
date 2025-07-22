@@ -1,42 +1,11 @@
-'use client';
-
 import Link from "next/link";
 import { Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import { jwtDecode } from 'jwt-decode';
-import styles from "../styles/Home.module.css";
-import Footer from "../components/footer";
+import styles from "@/styles/Home.module.css";
+import Footer from "@/components/footer";
+import UserWelcome from "@/components/user-welcome";
 
-interface User {
-  username?: string;
-  [key: string]: any;
-}
-
-interface DecodedToken {
-  username: string;
-  [key: string]: any;
-}
 
 export default function Home() {
-  const [user, setUser] = useState<User>({});
-
-  useEffect(() => {
-    const token = Cookies.get("token");
-    if (token) {
-      try {
-        const decoded = jwtDecode<DecodedToken>(token);
-        setUser(decoded || {});
-      } catch (e) {
-        console.log("error", e);
-        setUser({});
-      }
-    }
-  }, []);
-
-  const handleProfileClick = (): void => {
-    window.location.href = '/profile';
-  };
 
   return (
     <div className={styles.container}>
@@ -49,12 +18,8 @@ export default function Home() {
         <Typography variant="h2" fontWeight={700} textAlign="center" mb={2} color="primary.main"> 
           Chào mừng đến với Linknuoc
         </Typography>
-        {user?.username && (
-          <Typography variant="h6" textAlign="center" color="primary.main" mb={2}>
-            Xin chào <b style={{ cursor: 'pointer' }} onClick={handleProfileClick}>{user.username}</b>! Cùng tạo link nước thôi...
-          </Typography>
-        )}
-        
+
+        <UserWelcome />
 
         <p className={styles.description}>
           Nơi chia sẻ link nước đến với bạn bè & đồng nghiệp
