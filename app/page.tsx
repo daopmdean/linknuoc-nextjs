@@ -11,9 +11,9 @@ export default function Home() {
     <div className={styles.container}>
       <main className={styles.main}>
         <img
-          src="/image.png"
+          src="/image-nobackground.png"
           alt="Linknuoc Logo"
-          style={{ display: 'block', margin: '0 auto', maxWidth: 160, marginBottom: 16 }}
+          style={{ display: 'block', margin: '0 auto', maxWidth: 320, marginBottom: 16 }}
         />
         <Typography variant="h2" fontWeight={700} textAlign="center" mb={2} color="primary.main"> 
           Chào mừng đến với Linknuoc
