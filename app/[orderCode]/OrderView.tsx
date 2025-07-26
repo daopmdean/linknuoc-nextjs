@@ -76,7 +76,6 @@ export default function OrderView({
     setLoading(true);
     const orderItems = await OrderItemService.getOrderItems(order.orderCode);
     setItems(orderItems);
-    new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay
     setLoading(false);
   };
 
