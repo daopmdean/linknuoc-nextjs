@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import {
   Alert,
+  Autocomplete,
   Box,
   Button,
   Paper,
@@ -27,6 +28,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import Layout from "../../components/layout";
 import OrderService from "../../services/OrderService";
+import MenuService from "../../services/MenuService";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
@@ -35,6 +37,7 @@ export default function CreateOrderPage() {
     title: "",
     note: "",
     drinkLink: "",
+    menuCode: "",
     deadline: null as Date | null,
     redirect: false,
     redirectLink: "",
@@ -42,6 +45,8 @@ export default function CreateOrderPage() {
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [menus, setMenus] = useState([]);
+  const [menusLoading, setMenusLoading] = useState(false);
   const [error, setError] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showOrderLink, setShowOrderLink] = useState(false);
@@ -53,11 +58,36 @@ export default function CreateOrderPage() {
     setIsAuthenticated(!!token);
   }, []);
 
+  useEffect(() => {
+    const fetchMenus = async () => {
+      setMenusLoading(true);
+      try {
+        const response = await MenuService.getMenusRes();
+        if (response.status === "SUCCESS" && response.data) {
+          setMenus(response.data);
+        }
+      } catch (err) {
+        console.error("Error fetching menus:", err);
+      } finally {
+        setMenusLoading(false);
+      }
+    };
+
+    fetchMenus();
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setForm({
       ...form,
       [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleMenuChange = (event: any, newValue: any) => {
+    setForm({
+      ...form,
+      menuCode: newValue ? newValue.menuCode : "",
     });
   };
 
@@ -154,6 +184,25 @@ export default function CreateOrderPage() {
                 fullWidth
                 variant="outlined"
                 disabled={loading}
+              />
+              <Autocomplete
+                options={menus}
+                getOptionLabel={(option: any) => option.menuName || ""}
+                value={menus.find((menu: any) => menu.menuCode === form.menuCode) || null}
+                onChange={handleMenuChange}
+                loading={menusLoading}
+                disabled={loading}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Chọn menu"
+                    variant="outlined"
+                    fullWidth
+                  />
+                )}
+                isOptionEqualToValue={(option: any, value: any) => 
+                  option.menuCode === value.menuCode
+                }
               />
               <FormControlLabel
                 control={
