@@ -14,16 +14,17 @@ import {
   Stack,
   CardMedia,
 } from "@mui/material";
-import Layout from "../../../components/layout";
-import Loading from "../../../components/loading";
-import MenuService from "../../../services/MenuService";
-import MenuItemService from "../../../services/MenuItemService";
+import Layout from "@/components/layout";
+import Loading from "@/components/loading";
+import MenuService from "@/services/MenuService";
+import MenuItemService from "@/services/MenuItemService";
 
 interface MenuItem {
   id: number;
   itemName: string;
   drink: string;
-  size: string;
+  drinkSize?: string[];
+  sugarRate?: string[];
   imageLink?: string;
   category?: string;
   note?: string;
@@ -273,7 +274,7 @@ export default function MenuPage({ params }: MenuPageProps) {
                               <strong>🥤 Đồ uống:</strong> {item.drink}
                             </Typography>
                             <Typography variant="body1" color="text.primary">
-                              <strong>📏 Size:</strong> {item.size}
+                              <strong>📏 Size:</strong> {item.drinkSize}
                             </Typography>
                           </Stack>
 
@@ -311,7 +312,7 @@ export default function MenuPage({ params }: MenuPageProps) {
           {menu && items.length > 0 && (
             <Box sx={{ mt: 3, textAlign: 'center' }}>
               <Typography variant="body2" color="text.secondary">
-                Tổng cộng: <strong>{items.length}</strong> đồ uống được đặt
+                Tổng cộng: <strong>{items.length}</strong> đồ uống
               </Typography>
             </Box>
           )}
