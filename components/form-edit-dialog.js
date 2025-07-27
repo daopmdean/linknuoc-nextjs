@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import EditIcon from "@mui/icons-material/Edit";
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
-import { phucLongDrinks, theCoffeHouseDrinks, katinatDrinks } from "./form-dialog";
+import { phucLongDrinks, theCoffeHouseDrinks, katinatDrinks } from "./sample-drinks";
 import OrderItemService from "../services/OrderItemService";
 
 export default function FormEditDialog(props) {
@@ -30,6 +30,11 @@ export default function FormEditDialog(props) {
     }
   }, [menuCode]);
 
+  // Find the current drink object from options
+  const currentDrinkOption = useMemo(() => {
+    return drinkOptions.find(option => option.itemName === drink) || null;
+  }, [drinkOptions, drink]);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -43,7 +48,7 @@ export default function FormEditDialog(props) {
   };
 
   const handleDrinkChange = (evt, newValue) => {
-    setDrink(newValue?.label);
+    setDrink(newValue?.itemName);
   };
 
   const handleSizeChange = (evt) => {
@@ -86,9 +91,10 @@ export default function FormEditDialog(props) {
             disablePortal
             id="combo-box-demo"
             options={drinkOptions}
+            getOptionLabel={(option) => option.itemName || ''}
             sx={{ width: 400 }}
             onChange={handleDrinkChange}
-            defaultValue={drink}
+            value={currentDrinkOption}
             renderInput={(params) => (
               <TextField {...params} label="Bạn uống món gì" />
             )}

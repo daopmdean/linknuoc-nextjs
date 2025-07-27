@@ -1,7 +1,9 @@
+'use client';
+
 import * as React from 'react';
-import Head from 'next/head';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
 const theme = createTheme({
   palette: {
@@ -27,16 +29,17 @@ const theme = createTheme({
   },
 });
 
-export default function MyApp({ Component, pageProps }) {
+export default function ThemeRegistry({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <>
-      <Head>
-        {/* <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" /> */}
-      </Head>
+    <AppRouterCacheProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Component {...pageProps} />
+        {children}
       </ThemeProvider>
-    </>
+    </AppRouterCacheProvider>
   );
-} 
+}

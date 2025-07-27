@@ -7,15 +7,25 @@ import styles from "../styles/Home.module.css";
 import Layout from '../components/layout';
 import Footer from "../components/footer";
 
+interface User {
+  username?: string;
+  [key: string]: any;
+}
+
+interface DecodedToken {
+  username: string;
+  [key: string]: any;
+}
+
 export default function Home() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState<User>({});
 
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
       try {
-        const decoded = jwtDecode(token);
-        setUser(decoded || decoded || {});
+        const decoded = jwtDecode<DecodedToken>(token);
+        setUser(decoded || {});
       } catch (e) {
         console.log("error", e);
         setUser({});
@@ -29,12 +39,12 @@ export default function Home() {
     url: 'https://linknuoc.com',
   };
 
-  const handleProfileClick = () => {
+  const handleProfileClick = (): void => {
     window.location.href = '/profile';
   };
 
   return (
-    <Layout seo={seo}>
+    <Layout seo={seo} home={true}>
       <div className={styles.container}>
         <main className={styles.main}>
           <img
