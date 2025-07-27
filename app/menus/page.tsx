@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Box, Typography, Paper } from "@mui/material";
-import Layout from "../../components/layout";
-import Footer from "../../components/footer";
-import MenuService from "../../services/MenuService";
+import Layout from "@/components/layout";
+import Footer from "@/components/footer";
+import Loading from "@/components/loading";
+import MenuService from "@/services/MenuService";
 
 interface Menu {
   menuCode: string;
@@ -54,16 +55,7 @@ export default function MenusPage() {
   if (loading) {
     return (
       <Layout seo={seo} home={false}>
-        <Box
-          minHeight="100vh"
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-          bgcolor="background.default"
-        >
-          <Typography>Loading...</Typography>
-        </Box>
+        <Loading text="Loading..." />
       </Layout>
     );
   }
