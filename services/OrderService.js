@@ -1,6 +1,26 @@
 import { API_URL } from "../common/constant";
 import LoginService from "./LoginService";
 
+const getMyOrderRes = async (size) => {
+  const token = LoginService.getToken();
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Authorization": token ? `Bearer ${token}` : "",
+    },
+  };
+
+  try {
+    const orderFetchRes = await fetch(`${API_URL}/orders/mine?size=${size}`, requestOptions);
+    return await orderFetchRes.json();
+  } catch (error) {
+    return {
+      status: "ERROR",
+      message: error.message,
+    };
+  }
+}
+
 const getOrderRes = async (orderCode) => {
   try {
     const orderFetchRes = await fetch(`${API_URL}/orders/${orderCode}`);
@@ -39,6 +59,7 @@ const createOrder = async (order) => {
 };
 
 const OrderService = {
+  getMyOrderRes,
   getOrderRes,
   createOrder,
 };
