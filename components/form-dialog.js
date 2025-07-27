@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -7,27 +7,15 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
-import OrderItemService from "../services/OrderItemService";
-import { phucLongDrinks, theCoffeHouseDrinks, katinatDrinks } from "./sample-drinks";
+import OrderItemService from "@/services/OrderItemService";
+import { useMenuItems } from "@/hooks/useMenuItems";
 
 export default function FormDialog({ orderCode, menuCode, rFunc }) {
   const [name, setName] = useState("");
   const [drink, setDrink] = useState("");
   const [size, setSize] = useState("");
   const [open, setOpen] = useState(false);
-
-  const drinkOptions = useMemo(() => {
-    switch (menuCode) {
-      case "phuclong":
-        return phucLongDrinks;
-      case "thecoffeehouse":
-        return theCoffeHouseDrinks;
-      case "katinat":
-        return katinatDrinks;
-      default:
-        return []; // fallback nếu không khớp gì
-    }
-  }, [menuCode]);
+  const { drinkOptions } = useMenuItems(menuCode);
 
   const handleClickOpen = () => {
     setOpen(true);

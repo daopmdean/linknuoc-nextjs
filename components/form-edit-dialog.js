@@ -7,8 +7,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import EditIcon from "@mui/icons-material/Edit";
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
-import { phucLongDrinks, theCoffeHouseDrinks, katinatDrinks } from "./sample-drinks";
-import OrderItemService from "../services/OrderItemService";
+import OrderItemService from "@/services/OrderItemService";
+import { useMenuItems } from "@/hooks/useMenuItems";
 
 export default function FormEditDialog(props) {
   const [menuCode, setMenuCode] = useState(props.menuCode);
@@ -16,19 +16,7 @@ export default function FormEditDialog(props) {
   const [drink, setDrink] = useState(props.item.drink);
   const [size, setSize] = useState(props.item.size);
   const [open, setOpen] = useState(false);
-
-  const drinkOptions = useMemo(() => {
-    switch (menuCode) {
-      case "phuclong":
-        return phucLongDrinks;
-      case "thecoffeehouse":
-        return theCoffeHouseDrinks;
-      case "katinat":
-        return katinatDrinks;
-      default:
-        return []; // fallback nếu không khớp gì
-    }
-  }, [menuCode]);
+  const { drinkOptions } = useMenuItems(menuCode);
 
   // Find the current drink object from options
   const currentDrinkOption = useMemo(() => {
