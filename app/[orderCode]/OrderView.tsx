@@ -22,6 +22,7 @@ import Layout from "../../components/layout";
 import FormDialog from "../../components/form-dialog";
 import FormEditDialog from "../../components/form-edit-dialog";
 import OrderItemService from "../../services/OrderItemService";
+import { useMenuItems } from "@/hooks/useMenuItems";
 
 interface Order {
   orderCode: string;
@@ -50,6 +51,7 @@ export default function OrderView({
   const [order] = useState(initialOrder);
   const [items, setItems] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const { drinkOptions } = useMenuItems(order.menuCode);
 
   // Fetch order items on client side since server-side doesn't have access to auth cookies
   useEffect(() => {
@@ -106,8 +108,8 @@ export default function OrderView({
           <Stack direction="row" justifyContent="flex-end" spacing={2} mb={2}>
             <FormDialog
               orderCode={order.orderCode}
-              menuCode={order.menuCode}
               rFunc={handleRefreshItems}
+              drinkOptions={drinkOptions}
             />
             <Button
               variant="contained"
@@ -168,9 +170,9 @@ export default function OrderView({
                       <TableCell>
                         <Stack direction="row" spacing={1} alignItems="center">
                           <FormEditDialog
-                            menuCode={order.menuCode}
                             item={item}
                             rFunc={handleRefreshItems}
+                            drinkOptions={drinkOptions}
                           />
                           <IconButton
                             color="error"

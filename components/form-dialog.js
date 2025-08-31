@@ -8,14 +8,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
 import OrderItemService from "@/services/OrderItemService";
-import { useMenuItems } from "@/hooks/useMenuItems";
 
-export default function FormDialog({ orderCode, menuCode, rFunc }) {
+export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
   const [name, setName] = useState("");
   const [drink, setDrink] = useState("");
   const [size, setSize] = useState("");
   const [open, setOpen] = useState(false);
-  const { drinkOptions } = useMenuItems(menuCode);
 
   const handleClickOpen = () => {
     setOpen(true);

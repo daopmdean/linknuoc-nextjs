@@ -8,18 +8,17 @@ import DialogTitle from "@mui/material/DialogTitle";
 import EditIcon from "@mui/icons-material/Edit";
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
 import OrderItemService from "@/services/OrderItemService";
-import { useMenuItems } from "@/hooks/useMenuItems";
 
 export default function FormEditDialog(props) {
-  const [menuCode, setMenuCode] = useState(props.menuCode);
   const [name, setName] = useState(props.item.name);
   const [drink, setDrink] = useState(props.item.drink);
   const [size, setSize] = useState(props.item.size);
   const [open, setOpen] = useState(false);
-  const { drinkOptions } = useMenuItems(menuCode);
+  const drinkOptions = props.drinkOptions || [];
 
   // Find the current drink object from options
   const currentDrinkOption = useMemo(() => {
+    if (drinkOptions == undefined || drinkOptions.length === 0) return null;
     return drinkOptions.find(option => option.itemName === drink) || null;
   }, [drinkOptions, drink]);
 
