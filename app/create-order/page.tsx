@@ -5,7 +5,9 @@ import {
   Alert,
   Autocomplete,
   Box,
+  Breadcrumbs,
   Button,
+  Link,
   Paper,
   Stack,
   TextField,
@@ -23,6 +25,7 @@ import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import OpenInNewOutlinedIcon from "@mui/icons-material/OpenInNewOutlined";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -126,6 +129,62 @@ export default function CreateOrderPage() {
   return (
     <Layout home={false} seo={{ title: "Tạo đơn nước mới - Linknuoc" }}>
       <Box maxWidth="sm" mx="auto" mt={4}>
+        <Paper
+          elevation={1}
+          sx={{
+            p: 2,
+            mb: 3,
+            borderRadius: 2,
+
+            background: "linear-gradient(135deg, #f5f7fa 0%, #d2e0edff 100%)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+          }}
+        >
+          <Breadcrumbs
+            separator={
+              <NavigateNextIcon
+                fontSize="small"
+                sx={{
+                  color: "primary.main",
+                  opacity: 0.7,
+                }}
+              />
+            }
+            sx={{
+              "& .MuiBreadcrumbs-ol": {
+                alignItems: "center",
+              },
+            }}
+          >
+            <Link
+              underline="none"
+              color="primary.main"
+              href="/"
+              sx={{
+                cursor: "pointer",
+                fontWeight: 500,
+                fontSize: "0.9rem",
+                transition: "all 0.2s ease-in-out",
+                "&:hover": {
+                  color: "primary.dark",
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              Trang chủ
+            </Link>
+            <Typography
+              color="text.primary"
+              fontWeight={600}
+              sx={{
+                fontSize: "0.9rem",
+                color: "primary.dark",
+              }}
+            >
+              Tạo đơn nước mới
+            </Typography>
+          </Breadcrumbs>
+        </Paper>
         <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
           <Typography variant="h5" fontWeight={700} mb={2} color="primary.main">
             Tạo đơn nước mới
@@ -159,6 +218,7 @@ export default function CreateOrderPage() {
               </Stack>
             </Tooltip>
           )}
+          
           <form onSubmit={handleSubmit}>
             <Stack spacing={3}>
               <TextField
@@ -194,7 +254,10 @@ export default function CreateOrderPage() {
               <Autocomplete
                 options={menus}
                 getOptionLabel={(option: any) => option.menuName || ""}
-                value={menus.find((menu: any) => menu.menuCode === form.menuCode) || null}
+                value={
+                  menus.find((menu: any) => menu.menuCode === form.menuCode) ||
+                  null
+                }
                 onChange={handleMenuChange}
                 loading={menusLoading}
                 disabled={loading}
@@ -206,7 +269,7 @@ export default function CreateOrderPage() {
                     fullWidth
                   />
                 )}
-                isOptionEqualToValue={(option: any, value: any) => 
+                isOptionEqualToValue={(option: any, value: any) =>
                   option.menuCode === value.menuCode
                 }
               />
