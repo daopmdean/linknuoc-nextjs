@@ -26,11 +26,11 @@ import OpenInNewOutlinedIcon from "@mui/icons-material/OpenInNewOutlined";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 import Layout from "../../components/layout";
 import OrderService from "../../services/OrderService";
 import MenuService from "../../services/MenuService";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 
 export default function CreateOrderPage() {
   const [form, setForm] = useState({
@@ -147,8 +147,13 @@ export default function CreateOrderPage() {
                   variant="body2"
                   fontStyle="italic"
                   color="text.secondary"
+                  sx={{ textDecoration: "underline" }}
                 >
-                  Click vào đây để đăng nhập và tạo link nước
+                  Click vào đây để{" "}
+                  <Box component="span" sx={{ color: "#2196f3" }}>
+                    đăng nhập
+                  </Box>{" "}
+                  và tạo link nước
                 </Typography>
               </Stack>
             </Tooltip>
