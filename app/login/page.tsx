@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 import {
   Alert,
@@ -29,6 +29,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get('u');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -41,7 +43,7 @@ export default function LoginPage() {
     try {
       const { token } = await LoginService.login(form.username, form.password);
       Cookies.set("token", token, { expires: 7 }); // Save token for 7 days
-      router.push("/"); // Redirect to homepage on success
+      router.push(redirectUrl || "/");
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred.");
     } finally {
