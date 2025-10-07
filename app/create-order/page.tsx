@@ -55,7 +55,7 @@ export default function CreateOrderPage() {
 
   useEffect(() => {
     const token = Cookies.get("token");
-    if (!token) router.push("/login?u=/create-order");
+    if (!token) router.push("/login?redirectUrl=/create-order");
     setIsAuthenticated(!!token);
   }, []);
 
