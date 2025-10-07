@@ -31,9 +31,20 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { jwtDecode } from 'jwt-decode';
 import Layout from "../../components/layout";
 import OrderService from "../../services/OrderService";
 import MenuService from "../../services/MenuService";
+
+interface User {
+  username?: string;
+  [key: string]: any;
+}
+
+interface DecodedToken {
+  username: string;
+  [key: string]: any;
+}
 
 export default function CreateOrderPage() {
   const [form, setForm] = useState({
@@ -52,6 +63,7 @@ export default function CreateOrderPage() {
   const [menusLoading, setMenusLoading] = useState(false);
   const [error, setError] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User>({});
   const [showOrderLink, setShowOrderLink] = useState(false);
   const [createdOrderCode, setCreatedOrderCode] = useState("");
   const [copied, setCopied] = useState(false);
@@ -60,6 +72,15 @@ export default function CreateOrderPage() {
     const token = Cookies.get("token");
     if (!token) router.push("/login?redirectUrl=/create-order");
     setIsAuthenticated(!!token);
+    if (token) {
+      try {
+        const decoded = jwtDecode<DecodedToken>(token);
+        setUser(decoded || {});
+      } catch (e) {
+        console.log("error", e);
+        setUser({});
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -135,8 +156,6 @@ export default function CreateOrderPage() {
             p: 2,
             mb: 3,
             borderRadius: 2,
-
-            background: "linear-gradient(135deg, #f5f7fa 0%, #d2e0edff 100%)",
             border: "1px solid rgba(255, 255, 255, 0.2)",
           }}
         >
@@ -218,7 +237,18 @@ export default function CreateOrderPage() {
               </Stack>
             </Tooltip>
           )}
-          
+          {isAuthenticated && (
+            <Typography
+              variant="body2"
+              sx={{
+                fontStyle: "italic",
+                color: "text.secondary",
+                mb: 1,
+              }}
+            >
+              Tạo link nước với username {user?.username || "???"}
+            </Typography>
+          )}
           <form onSubmit={handleSubmit}>
             <Stack spacing={3}>
               <TextField
