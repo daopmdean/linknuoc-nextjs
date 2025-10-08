@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 import {
@@ -21,7 +21,7 @@ interface LoginForm {
   password: string;
 }
 
-export default function LoginPage() {
+function LoginContent() {
   const [form, setForm] = useState<LoginForm>({
     username: "",
     password: "",
@@ -123,5 +123,23 @@ export default function LoginPage() {
         </Paper>
       </Box>
     </Layout>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <Layout seo={{}} home={false}>
+        <Box maxWidth="sm" mx="auto" mt={4}>
+          <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+              <CircularProgress />
+            </Box>
+          </Paper>
+        </Box>
+      </Layout>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }
