@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from 'next-intl';
 import Cookies from "js-cookie";
 import Layout from "../../components/layout";
 import LoginService from "../../services/LoginService";
@@ -33,6 +34,8 @@ interface RegisterResponse {
 }
 
 export default function RegisterPage() {
+  const t = useTranslations('auth.register');
+  const tCommon = useTranslations('common');
   const [form, setForm] = useState<RegisterForm>({
     username: "",
     password: "",
@@ -57,7 +60,7 @@ export default function RegisterPage() {
     setError("");
 
     if (form.password !== form.confirmPassword) {
-      setError("Mật khẩu và Nhập lại mật khẩu không khớp.");
+      setError(t('passwordMismatch'));
       setLoading(false);
       return;
     }
@@ -67,7 +70,7 @@ export default function RegisterPage() {
       Cookies.set("token", response.token, { expires: 7 });
       router.push("/");
     } catch (err) {
-      setError((err as Error).message || "An unexpected error occurred.");
+      setError((err as Error).message || tCommon('error'));
     } finally {
       setLoading(false);
     }
@@ -84,13 +87,13 @@ export default function RegisterPage() {
       <Box maxWidth="sm" mx="auto" mt={4}>
         <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
           <Typography variant="h5" fontWeight={700} mb={2} color="primary.main">
-            Đăng ký
+            {t('title')}
           </Typography>
           <form onSubmit={handleSubmit}>
             <Stack spacing={3}>
               {error && <Alert severity="error">{error}</Alert>}
               <TextField
-                label="Tên đăng nhập"
+                label={t('username')}
                 name="username"
                 value={form.username}
                 onChange={handleChange}
@@ -100,7 +103,7 @@ export default function RegisterPage() {
                 disabled={loading}
               />
               <TextField
-                label="Mật khẩu"
+                label={t('password')}
                 name="password"
                 type="password"
                 value={form.password}
@@ -111,7 +114,7 @@ export default function RegisterPage() {
                 disabled={loading}
               />
               <TextField
-                label="Nhập lại mật khẩu"
+                label={t('confirmPassword')}
                 name="confirmPassword"
                 type="password"
                 value={form.confirmPassword}
@@ -122,7 +125,7 @@ export default function RegisterPage() {
                 disabled={loading}
               />
               <TextField
-                label="Email"
+                label={t('email')}
                 name="email"
                 type="email"
                 value={form.email}
@@ -133,7 +136,7 @@ export default function RegisterPage() {
                 disabled={loading}
               />
               <TextField
-                label="Số điện thoại"
+                label={t('phone')}
                 name="phone"
                 value={form.phone}
                 onChange={handleChange}
@@ -142,7 +145,7 @@ export default function RegisterPage() {
                 disabled={loading}
               />
               <TextField
-                label="Họ và tên"
+                label={t('fullName')}
                 name="fullName"
                 value={form.fullName}
                 onChange={handleChange}
@@ -152,7 +155,7 @@ export default function RegisterPage() {
                 disabled={loading}
               />
               <TextField
-                label="Địa chỉ"
+                label={t('address')}
                 name="address"
                 value={form.address}
                 onChange={handleChange}
@@ -161,7 +164,7 @@ export default function RegisterPage() {
                 disabled={loading}
               />
               <TextField
-                label="Ngày sinh"
+                label={t('dob')}
                 name="dob"
                 type="date"
                 value={form.dob}
@@ -182,7 +185,7 @@ export default function RegisterPage() {
                 {loading ? (
                   <CircularProgress size={24} color="inherit" />
                 ) : (
-                  "Đăng ký"
+                  t('submitButton')
                 )}
               </Button>
             </Stack>
