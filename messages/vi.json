@@ -1,0 +1,108 @@
+{
+  "navigation": {
+    "home": "Trang chủ",
+    "createOrder": "Tạo Link",
+    "menus": "Menu",
+    "profile": "Hồ sơ",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "register": "Đăng ký"
+  },
+  "homepage": {
+    "title": "Chào mừng đến với Linknuoc",
+    "description": "Nơi chia sẻ link nước đến với bạn bè & đồng nghiệp",
+    "createLinkCard": {
+      "title": "Tạo Link",
+      "description": "Tạo link nước và gửi đến với mọi người"
+    },
+    "createMenuCard": {
+      "title": "Tạo menu",
+      "description": "Làm một cái menu hoành xì tráng đẹp mắt!"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Đăng nhập",
+      "username": "Tên đăng nhập",
+      "password": "Mật khẩu",
+      "submitButton": "Đăng nhập",
+      "noAccount": "Chưa có tài khoản?",
+      "registerLink": "Đăng ký tại đây!",
+      "loginPrompt": "Click vào đây để đăng nhập và tạo link nước"
+    },
+    "register": {
+      "title": "Đăng ký",
+      "username": "Tên đăng nhập",
+      "password": "Mật khẩu",
+      "confirmPassword": "Nhập lại mật khẩu",
+      "email": "Email",
+      "phone": "Số điện thoại",
+      "fullName": "Họ và tên",
+      "address": "Địa chỉ",
+      "dob": "Ngày sinh",
+      "submitButton": "Đăng ký",
+      "passwordMismatch": "Mật khẩu và Nhập lại mật khẩu không khớp."
+    }
+  },
+  "createOrder": {
+    "title": "Tạo đơn nước",
+    "userWelcome": "Tạo link nước với username {username}",
+    "form": {
+      "title": "Tiêu đề",
+      "note": "Ghi chú",
+      "drinkLink": "Link menu nước",
+      "selectMenu": "Chọn menu",
+      "redirectCheckbox": "Chuyển tiếp tới link khác",
+      "redirectLink": "Link cần chuyển tiếp",
+      "deadline": "Hạn chót đặt nước",
+      "submitButton": "Tạo đơn"
+    },
+    "validation": {
+      "deadlineInPast": "Hạn chót đặt nước phải ở tương lai."
+    },
+    "success": {
+      "title": "Đơn nước đã được tạo thành công!",
+      "goToOrder": "Đi tới đơn nước",
+      "close": "Đóng"
+    }
+  },
+  "orderView": {
+    "addDrink": "Thêm ly nước coi",
+    "editDrink": "Sửa",
+    "deleteDrink": "Xóa",
+    "drinkForm": {
+      "dialogTitle": "Điền thông tin vào nhé!",
+      "dialogDescription": "Sữa mẹ là thức ăn tốt nhất cho sự phát triển của trẻ sơ sinh và trẻ nhỏ. And his/her father,...",
+      "nameLabel": "Cho xin cái tên",
+      "drinkLabel": "Bạn uống món gì",
+      "sizeLabel": "Size nước",
+      "cancel": "Huỷ",
+      "submit": "Thêm dô",
+      "update": "Cập nhật"
+    },
+    "drinkSizes": {
+      "S": "S",
+      "M": "M", 
+      "L": "L"
+    }
+  },
+  "menus": {
+    "title": "Menu đồ uống - Linknuoc",
+    "description": "Danh sách menu đồ uống được chia sẻ trên Linknuoc."
+  },
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi không mong muốn.",
+    "copy": "Sao chép",
+    "copied": "Đã sao chép!",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "confirm": "Xác nhận"
+  },
+  "seo": {
+    "title": "Linknuoc - Chia sẻ link nước đến với bạn bè & đồng nghiệp",
+    "description": "Nền tảng chia sẻ link nước và tạo menu đồ uống cho bạn bè và đồng nghiệp của bạn."
+  }
+}

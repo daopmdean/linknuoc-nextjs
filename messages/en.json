@@ -1,0 +1,108 @@
+{
+  "navigation": {
+    "home": "Home",
+    "createOrder": "Create Order",
+    "menus": "Menus",
+    "profile": "Profile",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register"
+  },
+  "homepage": {
+    "title": "Welcome to Linknuoc",
+    "description": "Share drink links with friends & colleagues",
+    "createLinkCard": {
+      "title": "Create Link",
+      "description": "Create drink links and share with everyone"
+    },
+    "createMenuCard": {
+      "title": "Create Menu",
+      "description": "Make a beautiful and attractive drink menu!"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "username": "Username",
+      "password": "Password",
+      "submitButton": "Login",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register here!",
+      "loginPrompt": "Click here to login and create drink links"
+    },
+    "register": {
+      "title": "Register",
+      "username": "Username",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "email": "Email",
+      "phone": "Phone Number",
+      "fullName": "Full Name",
+      "address": "Address",
+      "dob": "Date of Birth",
+      "submitButton": "Register",
+      "passwordMismatch": "Password and Confirm Password do not match."
+    }
+  },
+  "createOrder": {
+    "title": "Create Drink Order",
+    "userWelcome": "Create drink link with username {username}",
+    "form": {
+      "title": "Title",
+      "note": "Note",
+      "drinkLink": "Drink Menu Link",
+      "selectMenu": "Select Menu",
+      "redirectCheckbox": "Redirect to another link",
+      "redirectLink": "Redirect link",
+      "deadline": "Order Deadline",
+      "submitButton": "Create Order"
+    },
+    "validation": {
+      "deadlineInPast": "Order deadline must be in the future."
+    },
+    "success": {
+      "title": "Drink order has been created successfully!",
+      "goToOrder": "Go to Order",
+      "close": "Close"
+    }
+  },
+  "orderView": {
+    "addDrink": "Add a drink",
+    "editDrink": "Edit",
+    "deleteDrink": "Delete",
+    "drinkForm": {
+      "dialogTitle": "Please fill in the information!",
+      "dialogDescription": "Breast milk is the best food for the development of newborns and young children. And his/her father,...",
+      "nameLabel": "Your name please",
+      "drinkLabel": "What would you like to drink",
+      "sizeLabel": "Drink Size",
+      "cancel": "Cancel",
+      "submit": "Add",
+      "update": "Update"
+    },
+    "drinkSizes": {
+      "S": "Small",
+      "M": "Medium",
+      "L": "Large"
+    }
+  },
+  "menus": {
+    "title": "Drink Menus - Linknuoc",
+    "description": "List of drink menus shared on Linknuoc."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An unexpected error occurred.",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm"
+  },
+  "seo": {
+    "title": "Linknuoc - Share drink links with friends & colleagues",
+    "description": "Platform for sharing drink links and creating drink menus for your friends and colleagues."
+  }
+}

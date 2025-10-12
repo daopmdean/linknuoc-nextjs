@@ -1,6 +1,6 @@
 import { notFound, redirect } from 'next/navigation';
 import OrderView from './OrderView';
-import OrderService from '../../services/OrderService';
+import OrderService from '../../../services/OrderService';
 
 interface PageProps {
   params: {
