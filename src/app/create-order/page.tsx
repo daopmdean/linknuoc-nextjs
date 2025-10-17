@@ -32,7 +32,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { jwtDecode } from 'jwt-decode';
-import Layout from "../../../components/layout";
+import Layout from "../../components/Layout";
 import OrderService from "../../../services/OrderService";
 import MenuService from "../../../services/MenuService";
 

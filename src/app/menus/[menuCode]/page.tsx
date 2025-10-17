@@ -14,8 +14,8 @@ import {
   Stack,
   CardMedia,
 } from "@mui/material";
-import Layout from "@/components/layout";
-import Loading from "@/components/loading";
+import Layout from "@/src/components/Layout";
+import Loading from "@/src/components/Loading";
 import MenuService from "@/services/MenuService";
 import MenuItemService from "@/services/MenuItemService";
 

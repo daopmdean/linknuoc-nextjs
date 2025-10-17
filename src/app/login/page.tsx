@@ -14,7 +14,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Layout from "../../../components/layout";
+import Layout from "../../components/Layout";
 import LoginService from "../../../services/LoginService";
 
 interface LoginForm {

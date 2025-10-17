@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Box, Typography, Paper } from "@mui/material";
-import Layout from "@/components/layout";
-import Footer from "@/components/footer";
-import Loading from "@/components/loading";
+import Layout from "@/src/components/Layout";
+import Footer from "@/src/components/Footer";
+import Loading from "@/src/components/Loading";
 import MenuService from "@/services/MenuService";
 
 interface Menu {

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from 'next-intl';
 import Cookies from "js-cookie";
-import Layout from "../../../components/layout";
+import Layout from "../../components/Layout";
 import LoginService from "../../../services/LoginService";
 import {
   Alert,

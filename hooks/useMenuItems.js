@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { phucLongDrinks, theCoffeHouseDrinks, katinatDrinks } from "@/components/sample-drinks";
+import { phucLongDrinks, theCoffeHouseDrinks, katinatDrinks } from "@/src/components/sample-drinks";
 import MenuItemService from "@/services/MenuItemService";
 
 export const useMenuItems = (menuCode) => {

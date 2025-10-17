@@ -1,5 +1,5 @@
 import { AppBar, Toolbar } from '@mui/material';
-import LanguageSwitcher from '../src/components/LanguageSwitcher';
+import LanguageSwitcher from './LanguageSwitcher';
 import LogoLink from './LogoLink';
 import styles from "./layout.module.css";
 import SEO from './SEO';

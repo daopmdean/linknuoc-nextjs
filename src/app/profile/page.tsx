@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { Box, Typography, Paper, Stack, Divider } from '@mui/material';
-import Layout from '@/components/layout';
+import Layout from '@/src/components/Layout';
 import MenuService from '@/services/MenuService';
 import OrderService from '@/services/OrderService';
 
