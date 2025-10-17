@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
-import { phucLongDrinks, theCoffeHouseDrinks, katinatDrinks } from "@/components/sample-drinks";
-import MenuItemService from "@/services/MenuItemService";
+import { phucLongDrinks, theCoffeHouseDrinks, katinatDrinks } from "@/src/components/sample-drinks";
+import MenuItemService from "@/src/services/MenuItemService";
 
 export const useMenuItems = (menuCode) => {
   const [dynamicMenuItems, setDynamicMenuItems] = useState([]);

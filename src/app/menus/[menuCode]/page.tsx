@@ -14,10 +14,10 @@ import {
   Stack,
   CardMedia,
 } from "@mui/material";
-import Layout from "@/components/layout";
-import Loading from "@/components/loading";
-import MenuService from "@/services/MenuService";
-import MenuItemService from "@/services/MenuItemService";
+import Layout from "@/src/components/Layout";
+import Loading from "@/src/components/Loading";
+import MenuService from "@/src/services/MenuService";
+import MenuItemService from "@/src/services/MenuItemService";
 
 interface MenuItem {
   id: number;

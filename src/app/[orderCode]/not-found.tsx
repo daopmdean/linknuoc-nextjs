@@ -1,4 +1,4 @@
-import Layout from "../../../components/layout";
+import Layout from "../../components/Layout";
 import { Typography, Box, Paper } from "@mui/material";
 
 export default function NotFound() {

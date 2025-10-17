@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { Box, Typography, Paper, Stack, Divider } from '@mui/material';
-import Layout from '@/components/layout';
-import MenuService from '@/services/MenuService';
-import OrderService from '@/services/OrderService';
+import Layout from '@/src/components/Layout';
+import MenuService from '@/src/services/MenuService';
+import OrderService from '@/src/services/OrderService';
 
 interface User {
   username?: string;

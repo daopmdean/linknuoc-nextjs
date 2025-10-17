@@ -1,19 +1,26 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import EditIcon from "@mui/icons-material/Edit";
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
-import OrderItemService from "@/services/OrderItemService";
+import OrderItemService from "@/src/services/OrderItemService";
 
-export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
-  const [name, setName] = useState("");
-  const [drink, setDrink] = useState("");
-  const [size, setSize] = useState("");
+export default function FormEditDialog(props) {
+  const [name, setName] = useState(props.item.name);
+  const [drink, setDrink] = useState(props.item.drink);
+  const [size, setSize] = useState(props.item.size);
   const [open, setOpen] = useState(false);
+  const drinkOptions = props.drinkOptions || [];
+
+  // Find the current drink object from options
+  const currentDrinkOption = useMemo(() => {
+    if (drinkOptions == undefined || drinkOptions.length === 0) return null;
+    return drinkOptions.find(option => option.itemName === drink) || null;
+  }, [drinkOptions, drink]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -37,28 +44,24 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    await OrderItemService.createOrderItems({
-      orderCode,
-      name,
-      drink,
-      size,
-    });
-    await rFunc();
+    let orderItem = {
+      id: props.item.id,
+      orderCode: props.item.orderCode,
+      name: name,
+      drink: drink,
+      size: size,
+    };
+    await OrderItemService.updateOrderItems(orderItem);
+    await props.rFunc();
     setOpen(false);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Thêm ly nước coi
-      </Button>
+    <div>
+      <EditIcon variant="outlined" onClick={handleClickOpen}></EditIcon>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Điền thông tin vào nhé!</DialogTitle>
+        <DialogTitle>Cập nhật nước của bạn!</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Sữa mẹ là thức ăn tốt nhất cho sự phát triển của trẻ sơ sinh và trẻ
-            nhỏ. And his/her father,...
-          </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -67,7 +70,7 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
             type="string"
             fullWidth
             variant="standard"
-            sx={{ width: 400 }}
+            defaultValue={name}
             onChange={handleNameChange}
           />
           <Box sx={{ height: 10 }}></Box>
@@ -75,9 +78,10 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
             disablePortal
             id="combo-box-demo"
             options={drinkOptions}
-            getOptionLabel={(option) => option.itemName}
+            getOptionLabel={(option) => option.itemName || ''}
             sx={{ width: 400 }}
             onChange={handleDrinkChange}
+            value={currentDrinkOption}
             renderInput={(params) => (
               <TextField {...params} label="Bạn uống món gì" />
             )}
@@ -98,11 +102,9 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Huỷ</Button>
-          <Button onClick={handleSubmit} type="submit">
-            Thêm dô
-          </Button>
+          <Button onClick={handleSubmit}>Cập nhật</Button>
         </DialogActions>
       </Dialog>
-    </form>
+    </div>
   );
 }

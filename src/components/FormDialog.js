@@ -1,26 +1,19 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import EditIcon from "@mui/icons-material/Edit";
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
-import OrderItemService from "@/services/OrderItemService";
+import OrderItemService from "@/src/services/OrderItemService";
 
-export default function FormEditDialog(props) {
-  const [name, setName] = useState(props.item.name);
-  const [drink, setDrink] = useState(props.item.drink);
-  const [size, setSize] = useState(props.item.size);
+export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
+  const [name, setName] = useState("");
+  const [drink, setDrink] = useState("");
+  const [size, setSize] = useState("");
   const [open, setOpen] = useState(false);
-  const drinkOptions = props.drinkOptions || [];
-
-  // Find the current drink object from options
-  const currentDrinkOption = useMemo(() => {
-    if (drinkOptions == undefined || drinkOptions.length === 0) return null;
-    return drinkOptions.find(option => option.itemName === drink) || null;
-  }, [drinkOptions, drink]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,24 +37,28 @@ export default function FormEditDialog(props) {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    let orderItem = {
-      id: props.item.id,
-      orderCode: props.item.orderCode,
-      name: name,
-      drink: drink,
-      size: size,
-    };
-    await OrderItemService.updateOrderItems(orderItem);
-    await props.rFunc();
+    await OrderItemService.createOrderItems({
+      orderCode,
+      name,
+      drink,
+      size,
+    });
+    await rFunc();
     setOpen(false);
   };
 
   return (
-    <div>
-      <EditIcon variant="outlined" onClick={handleClickOpen}></EditIcon>
+    <form onSubmit={handleSubmit}>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Thêm ly nước coi
+      </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Cập nhật nước của bạn!</DialogTitle>
+        <DialogTitle>Điền thông tin vào nhé!</DialogTitle>
         <DialogContent>
+          <DialogContentText>
+            Sữa mẹ là thức ăn tốt nhất cho sự phát triển của trẻ sơ sinh và trẻ
+            nhỏ. And his/her father,...
+          </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -70,7 +67,7 @@ export default function FormEditDialog(props) {
             type="string"
             fullWidth
             variant="standard"
-            defaultValue={name}
+            sx={{ width: 400 }}
             onChange={handleNameChange}
           />
           <Box sx={{ height: 10 }}></Box>
@@ -78,10 +75,9 @@ export default function FormEditDialog(props) {
             disablePortal
             id="combo-box-demo"
             options={drinkOptions}
-            getOptionLabel={(option) => option.itemName || ''}
+            getOptionLabel={(option) => option.itemName}
             sx={{ width: 400 }}
             onChange={handleDrinkChange}
-            value={currentDrinkOption}
             renderInput={(params) => (
               <TextField {...params} label="Bạn uống món gì" />
             )}
@@ -102,9 +98,11 @@ export default function FormEditDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Huỷ</Button>
-          <Button onClick={handleSubmit}>Cập nhật</Button>
+          <Button onClick={handleSubmit} type="submit">
+            Thêm dô
+          </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </form>
   );
 }

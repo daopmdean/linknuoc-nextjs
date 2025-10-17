@@ -18,11 +18,11 @@ import {
   Stack,
   CircularProgress,
 } from "@mui/material";
-import Layout from "../../../components/layout";
-import FormDialog from "../../../components/form-dialog";
-import FormEditDialog from "../../../components/form-edit-dialog";
-import OrderItemService from "../../../services/OrderItemService";
-import { useMenuItems } from "@/hooks/useMenuItems";
+import OrderItemService from "@/src/services/OrderItemService";
+import { useMenuItems } from "@/src/hooks/useMenuItems";
+import Layout from "@/src/components/Layout";
+import FormDialog from "@/src/components/FormDialog";
+import FormEditDialog from "@/src/components/FormEditDialog";
 
 interface Order {
   orderCode: string;
