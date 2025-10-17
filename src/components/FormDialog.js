@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
-import OrderItemService from "@/services/OrderItemService";
+import OrderItemService from "@/src/services/OrderItemService";
 
 export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
   const [name, setName] = useState("");
