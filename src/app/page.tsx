@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Typography } from "@mui/material";
 import { useTranslations } from 'next-intl';
-import styles from "@/styles/Home.module.css";
+import styles from "@/src/styles/Home.module.css";
 import Footer from "@/src/components/Footer";
 import UserWelcome from "@/src/components/UserWelcome";
 
