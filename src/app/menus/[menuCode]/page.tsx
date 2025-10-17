@@ -16,8 +16,8 @@ import {
 } from "@mui/material";
 import Layout from "@/src/components/Layout";
 import Loading from "@/src/components/Loading";
-import MenuService from "@/services/MenuService";
-import MenuItemService from "@/services/MenuItemService";
+import MenuService from "@/src/services/MenuService";
+import MenuItemService from "@/src/services/MenuItemService";
 
 interface MenuItem {
   id: number;

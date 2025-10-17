@@ -19,9 +19,9 @@ import {
   CircularProgress,
 } from "@mui/material";
 import Layout from "../../components/Layout";
-import FormDialog from "../../components/form-dialog";
-import FormEditDialog from "../../components/form-edit-dialog";
-import OrderItemService from "../../../services/OrderItemService";
+import FormDialog from "../../components/FormDialog";
+import FormEditDialog from "../../components/FormEditDialog";
+import OrderItemService from "@/src/services/OrderItemService";
 import { useMenuItems } from "@/hooks/useMenuItems";
 
 interface Order {

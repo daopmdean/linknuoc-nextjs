@@ -6,7 +6,7 @@ import { Box, Typography, Paper } from "@mui/material";
 import Layout from "@/src/components/Layout";
 import Footer from "@/src/components/Footer";
 import Loading from "@/src/components/Loading";
-import MenuService from "@/services/MenuService";
+import MenuService from "@/src/services/MenuService";
 
 interface Menu {
   menuCode: string;

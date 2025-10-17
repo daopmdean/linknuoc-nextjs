@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import EditIcon from "@mui/icons-material/Edit";
 import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
-import OrderItemService from "@/services/OrderItemService";
+import OrderItemService from "@/src/services/OrderItemService";
 
 export default function FormEditDialog(props) {
   const [name, setName] = useState(props.item.name);

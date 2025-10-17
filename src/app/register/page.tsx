@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from 'next-intl';
 import Cookies from "js-cookie";
-import Layout from "../../components/Layout";
-import LoginService from "../../../services/LoginService";
+import Layout from "@/src/components/Layout";
+import LoginService from "@/src/services/LoginService";
 import {
   Alert,
   Box,

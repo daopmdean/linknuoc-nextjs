@@ -21,7 +21,6 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@/services/*": ["./services/*"],
       "@/hooks/*": ["./hooks/*"],
       "@/styles/*": ["./styles/*"]
     }
