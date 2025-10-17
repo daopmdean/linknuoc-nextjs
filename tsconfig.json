@@ -21,7 +21,7 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@/hooks/*": ["./hooks/*"],
+      "@/hooks/*": ["src/hooks/*"],
       "@/styles/*": ["./styles/*"]
     }
   },
