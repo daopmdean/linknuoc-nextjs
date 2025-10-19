@@ -1,4 +1,4 @@
-import { API_URL } from "../common/constant";
+import { API_URL } from "@/src/common/constant";
 
 const getOrderItems = async (orderCode) => {
   try {
@@ -28,10 +28,17 @@ const createOrderItems = async (orderItem) => {
       size: orderItem.size,
     }),
   };
-
+  
   try {
-    await fetch(`${API_URL}/orders/items`, requestOptions);
-  } catch (err) {}
+    const fetchResponse = await fetch(`${API_URL}/orders/items`, requestOptions);
+    const response = await fetchResponse.json();
+    if (response.status !== "SUCCESS") {
+      throw new Error("createOrderItems failed " + response.status);
+    }
+
+  } catch (err) {
+    throw new Error("createOrderItems with error: " + err.message);
+  }
 };
 
 const updateOrderItems = async (orderItem) => {
@@ -49,8 +56,14 @@ const updateOrderItems = async (orderItem) => {
   };
 
   try {
-    await fetch(`${API_URL}/orders/items/${orderItem.id}`, requestOptions);
-  } catch (err) {}
+    const fetchResponse = await fetch(`${API_URL}/orders/items/${orderItem.id}`, requestOptions);
+    const response = await fetchResponse.json();
+    if (response.status !== "SUCCESS") {
+      throw new Error("updateOrderItems failed " + response.status);
+    }
+  } catch (err) {
+    throw new Error("updateOrderItems with error: " + err.message);
+  }
 };
 
 const deleteOrderItems = async (id) => {

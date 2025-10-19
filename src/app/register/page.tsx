@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 import Cookies from "js-cookie";
 import Layout from "@/src/components/Layout";
 import LoginService from "@/src/services/LoginService";
@@ -34,8 +34,8 @@ interface RegisterResponse {
 }
 
 export default function RegisterPage() {
-  const t = useTranslations('auth.register');
-  const tCommon = useTranslations('common');
+  const t = useTranslations("auth.register");
+  const tCommon = useTranslations("common");
   const [form, setForm] = useState<RegisterForm>({
     username: "",
     password: "",
@@ -60,7 +60,7 @@ export default function RegisterPage() {
     setError("");
 
     if (form.password !== form.confirmPassword) {
-      setError(t('passwordMismatch'));
+      setError(t("passwordMismatch"));
       setLoading(false);
       return;
     }
@@ -70,7 +70,7 @@ export default function RegisterPage() {
       Cookies.set("token", response.token, { expires: 7 });
       router.push("/");
     } catch (err) {
-      setError((err as Error).message || tCommon('error'));
+      setError((err as Error).message || tCommon("error"));
     } finally {
       setLoading(false);
     }
@@ -87,13 +87,13 @@ export default function RegisterPage() {
       <Box maxWidth="sm" mx="auto" mt={4}>
         <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
           <Typography variant="h5" fontWeight={700} mb={2} color="primary.main">
-            {t('title')}
+            {t("title")}
           </Typography>
           <form onSubmit={handleSubmit}>
             <Stack spacing={3}>
               {error && <Alert severity="error">{error}</Alert>}
               <TextField
-                label={t('username')}
+                label={t("username")}
                 name="username"
                 value={form.username}
                 onChange={handleChange}
@@ -103,7 +103,7 @@ export default function RegisterPage() {
                 disabled={loading}
               />
               <TextField
-                label={t('password')}
+                label={t("password")}
                 name="password"
                 type="password"
                 value={form.password}
@@ -114,7 +114,7 @@ export default function RegisterPage() {
                 disabled={loading}
               />
               <TextField
-                label={t('confirmPassword')}
+                label={t("confirmPassword")}
                 name="confirmPassword"
                 type="password"
                 value={form.confirmPassword}
@@ -123,56 +123,6 @@ export default function RegisterPage() {
                 required
                 variant="outlined"
                 disabled={loading}
-              />
-              <TextField
-                label={t('email')}
-                name="email"
-                type="email"
-                value={form.email}
-                onChange={handleChange}
-                fullWidth
-                required
-                variant="outlined"
-                disabled={loading}
-              />
-              <TextField
-                label={t('phone')}
-                name="phone"
-                value={form.phone}
-                onChange={handleChange}
-                fullWidth
-                variant="outlined"
-                disabled={loading}
-              />
-              <TextField
-                label={t('fullName')}
-                name="fullName"
-                value={form.fullName}
-                onChange={handleChange}
-                fullWidth
-                required
-                variant="outlined"
-                disabled={loading}
-              />
-              <TextField
-                label={t('address')}
-                name="address"
-                value={form.address}
-                onChange={handleChange}
-                fullWidth
-                variant="outlined"
-                disabled={loading}
-              />
-              <TextField
-                label={t('dob')}
-                name="dob"
-                type="date"
-                value={form.dob}
-                onChange={handleChange}
-                fullWidth
-                variant="outlined"
-                disabled={loading}
-                InputLabelProps={{ shrink: true }}
               />
               <Button
                 type="submit"
@@ -185,7 +135,7 @@ export default function RegisterPage() {
                 {loading ? (
                   <CircularProgress size={24} color="inherit" />
                 ) : (
-                  t('submitButton')
+                  t("submitButton")
                 )}
               </Button>
             </Stack>

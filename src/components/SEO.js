@@ -1,13 +1,13 @@
-import Head from 'next/head';
+import Head from "next/head";
 
-export default function SEO({ 
-  title = 'Linknuoc - Chia sẻ link nước đến với bạn bè & đồng nghiệp',
-  description = 'Nền tảng chia sẻ link nước và tạo menu đồ uống cho bạn bè và đồng nghiệp của bạn.',
-  image = '/image.png',
-  url = 'https://linknuoc.com',
-  type = 'website',
+export default function SEO({
+  title = "Linknuoc - Chia sẻ link nước đến với bạn bè & đồng nghiệp",
+  description = "Nền tảng chia sẻ link nước và tạo menu đồ uống cho bạn bè và đồng nghiệp của bạn.",
+  image = "/image.png",
+  url = "https://linknuoc.com",
+  type = "website",
 }) {
-  const siteTitle = title === 'Linknuoc' ? title : `${title} | Linknuoc`;
+  const siteTitle = title === "Linknuoc" ? title : `${title} | Linknuoc`;
 
   return (
     <Head>
@@ -17,7 +17,7 @@ export default function SEO({
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta charSet="utf-8" />
       <meta name="language" content="Vietnamese" />
-      
+
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />
       <meta property="og:url" content={url} />
@@ -35,11 +35,11 @@ export default function SEO({
       {/* Favicon */}
       <link rel="icon" href="/favicon.ico" />
       <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-      
+
       {/* Additional meta tags */}
       <meta name="theme-color" content="#ffffff" />
       <meta name="robots" content="index, follow" />
       <meta name="googlebot" content="index, follow" />
     </Head>
   );
-} 
+}

@@ -31,7 +31,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import Layout from "@/src/components/Layout";
 import OrderService from "@/src/services/OrderService";
 import MenuService from "@/src/services/MenuService";

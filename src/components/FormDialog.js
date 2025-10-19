@@ -6,7 +6,15 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Autocomplete, Box, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  Autocomplete,
+  InputLabel,
+  MenuItem,
+  Select,
+  useTheme,
+  useMediaQuery,
+  Alert,
+} from "@mui/material";
 import OrderItemService from "@/src/services/OrderItemService";
 
 export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
@@ -14,9 +22,14 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
   const [drink, setDrink] = useState("");
   const [size, setSize] = useState("");
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleClickOpen = () => {
     setOpen(true);
+    setError(""); // Clear any previous errors when opening dialog
   };
 
   const handleClose = () => {
@@ -37,14 +50,21 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    await OrderItemService.createOrderItems({
-      orderCode,
-      name,
-      drink,
-      size,
-    });
-    await rFunc();
-    setOpen(false);
+    setError(""); // Clear any previous errors
+
+    try {
+      const response = await OrderItemService.createOrderItems({
+        orderCode,
+        name,
+        drink,
+        size,
+      });
+      await rFunc();
+      setOpen(false); // Only close dialog on success
+    } catch (error) {
+      console.error("Failed to create order item:", error);
+      setError("Vui lòng điền đầy đủ thông tin và thử lại!");
+    }
   };
 
   return (
@@ -52,13 +72,56 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
       <Button variant="outlined" onClick={handleClickOpen}>
         Thêm ly nước coi
       </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Điền thông tin vào nhé!</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullScreen={isMobile}
+        maxWidth={isMobile ? false : "sm"}
+        fullWidth
+        slotProps={{
+          sx: {
+            margin: isMobile ? 0 : 2,
+            width: isMobile ? "100%" : "auto",
+            height: isMobile ? "100%" : "auto",
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            fontSize: isMobile ? "1.2rem" : "1.5rem",
+            padding: isMobile ? "16px" : "24px",
+          }}
+        >
+          Điền thông tin vào nhé!
+        </DialogTitle>
+        <DialogContent
+          sx={{
+            padding: isMobile ? "8px 16px" : "20px 24px",
+          }}
+        >
+          {error && (
+            <Alert severity="error" sx={{ marginBottom: 2 }}>
+              {error}
+            </Alert>
+          )}
+          <DialogContentText
+            sx={{
+              fontSize: isMobile ? "0.875rem" : "1rem",
+              marginBottom: 2,
+            }}
+          >
             Sữa mẹ là thức ăn tốt nhất cho sự phát triển của trẻ sơ sinh và trẻ
             nhỏ. And his/her father,...
           </DialogContentText>
+          <InputLabel
+            id="demo-simple-select-label"
+            sx={{
+              fontSize: isMobile ? "0.875rem" : "1rem",
+              marginBottom: 1,
+            }}
+          >
+            Nhập tên bạn đi nào
+          </InputLabel>
           <TextField
             autoFocus
             margin="dense"
@@ -66,40 +129,121 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
             label="Cho xin cái tên"
             type="string"
             fullWidth
-            variant="standard"
-            sx={{ width: 400 }}
+            variant="outlined"
             onChange={handleNameChange}
+            sx={{
+              marginBottom: 2,
+              "& .MuiInputLabel-root": {
+                fontSize: isMobile ? "0.875rem" : "1rem",
+              },
+              "& .MuiOutlinedInput-root": {
+                fontSize: isMobile ? "0.875rem" : "1rem",
+              },
+            }}
           />
-          <Box sx={{ height: 10 }}></Box>
+          <InputLabel
+            id="demo-simple-select-label"
+            sx={{
+              fontSize: isMobile ? "0.875rem" : "1rem",
+              marginBottom: 1,
+            }}
+          >
+            Bạn uống món gì
+          </InputLabel>
           <Autocomplete
             disablePortal
             id="combo-box-demo"
             options={drinkOptions}
             getOptionLabel={(option) => option.itemName}
-            sx={{ width: 400 }}
+            fullWidth
             onChange={handleDrinkChange}
             renderInput={(params) => (
-              <TextField {...params} label="Bạn uống món gì" />
+              <TextField
+                {...params}
+                label="Bạn uống món gì"
+                sx={{
+                  "& .MuiInputLabel-root": {
+                    fontSize: isMobile ? "0.875rem" : "1rem",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    fontSize: isMobile ? "0.875rem" : "1rem",
+                  },
+                }}
+              />
             )}
+            sx={{ marginBottom: 2 }}
           />
-          <InputLabel id="demo-simple-select-label">Size nước</InputLabel>
+          <InputLabel
+            id="demo-simple-select-label"
+            sx={{
+              fontSize: isMobile ? "0.875rem" : "1rem",
+              marginBottom: 1,
+            }}
+          >
+            Size nước
+          </InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={size}
             label="Size nước"
-            sx={{ width: 400 }}
+            fullWidth
             onChange={handleSizeChange}
+            sx={{
+              fontSize: isMobile ? "0.875rem" : "1rem",
+              "& .MuiSelect-select": {
+                fontSize: isMobile ? "0.875rem" : "1rem",
+              },
+            }}
           >
-            <MenuItem value="S">S</MenuItem>
-            <MenuItem value="M">M</MenuItem>
-            <MenuItem value="L">L</MenuItem>
+            <MenuItem
+              value="S"
+              sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}
+            >
+              S
+            </MenuItem>
+            <MenuItem
+              value="M"
+              sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}
+            >
+              M
+            </MenuItem>
+            <MenuItem
+              value="L"
+              sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}
+            >
+              L
+            </MenuItem>
           </Select>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Huỷ</Button>
-          <Button onClick={handleSubmit} type="submit">
+        <DialogActions
+          sx={{
+            padding: isMobile ? "8px 16px 16px" : "8px 24px 20px",
+            flexDirection: isMobile ? "column" : "row",
+            gap: isMobile ? 1 : 0,
+          }}
+        >
+          <Button
+            onClick={handleSubmit}
+            type="submit"
+            variant="contained"
+            fullWidth={isMobile}
+            sx={{
+              fontSize: isMobile ? "0.875rem" : "0.875rem",
+              minHeight: isMobile ? "44px" : "36px",
+            }}
+          >
             Thêm dô
+          </Button>
+          <Button
+            onClick={handleClose}
+            fullWidth={isMobile}
+            sx={{
+              fontSize: isMobile ? "0.875rem" : "0.875rem",
+              minHeight: isMobile ? "44px" : "36px",
+            }}
+          >
+            Huỷ
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,11 +1,6 @@
-import {
-  Typography,
-  Box,
-  CircularProgress,
-  Container,
-} from "@mui/material";
+import { Typography, Box, CircularProgress, Container } from "@mui/material";
 
-export default function Loading({text = "Đang tải..."}) {
+export default function Loading({ text = "Đang tải..." }) {
   return (
     <Container maxWidth="lg">
       <Box

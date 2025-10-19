@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import { Typography } from "@mui/material";
 
 interface User {
@@ -14,10 +14,10 @@ interface DecodedToken {
   username: string;
   [key: string]: any;
 }
-  
+
 export default function UserWelcome() {
   const [user, setUser] = useState<User>({});
-  
+
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
@@ -32,14 +32,18 @@ export default function UserWelcome() {
   }, []);
 
   const handleProfileClick = (): void => {
-    window.location.href = '/profile';
+    window.location.href = "/profile";
   };
 
   return (
     <>
       {user?.username && (
         <Typography variant="h6" textAlign="center" color="primary.main" mb={2}>
-          Xin chào <b style={{ cursor: 'pointer' }} onClick={handleProfileClick}>{user.username}</b>! Cùng tạo link nước thôi...
+          Xin chào{" "}
+          <b style={{ cursor: "pointer" }} onClick={handleProfileClick}>
+            {user.username}
+          </b>
+          ! Cùng tạo link nước thôi...
         </Typography>
       )}
     </>

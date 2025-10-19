@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 import Cookies from "js-cookie";
 import {
   Alert,
@@ -23,8 +23,8 @@ interface LoginForm {
 }
 
 function LoginContent() {
-  const t = useTranslations('auth.login');
-  const tCommon = useTranslations('common');
+  const t = useTranslations("auth.login");
+  const tCommon = useTranslations("common");
   const [form, setForm] = useState<LoginForm>({
     username: "",
     password: "",
@@ -33,7 +33,7 @@ function LoginContent() {
   const [error, setError] = useState<string>("");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get('redirectUrl');
+  const redirectUrl = searchParams.get("redirectUrl");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -48,7 +48,7 @@ function LoginContent() {
       Cookies.set("token", token, { expires: 7 }); // Save token for 7 days
       router.push(redirectUrl || "/");
     } catch (err: any) {
-      setError(err.message || tCommon('error'));
+      setError(err.message || tCommon("error"));
     } finally {
       setLoading(false);
     }
@@ -63,13 +63,13 @@ function LoginContent() {
       <Box maxWidth="sm" mx="auto" mt={4}>
         <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
           <Typography variant="h5" fontWeight={700} mb={2} color="primary.main">
-            {t('title')}
+            {t("title")}
           </Typography>
           <form onSubmit={handleSubmit}>
             <Stack spacing={3}>
               {error && <Alert severity="error">{error}</Alert>}
               <TextField
-                label={t('username')}
+                label={t("username")}
                 name="username"
                 value={form.username}
                 onChange={handleChange}
@@ -79,7 +79,7 @@ function LoginContent() {
                 disabled={loading}
               />
               <TextField
-                label={t('password')}
+                label={t("password")}
                 name="password"
                 type="password"
                 value={form.password}
@@ -95,7 +95,7 @@ function LoginContent() {
                 fontStyle="italic"
                 sx={{ mb: 1 }}
               >
-                {t('noAccount')}{" "}
+                {t("noAccount")}{" "}
                 <span
                   style={{
                     color: "#1976d2",
@@ -104,7 +104,7 @@ function LoginContent() {
                   }}
                   onClick={handleRegisterClick}
                 >
-                  {t('registerLink')}
+                  {t("registerLink")}
                 </span>
               </Typography>
               <Button
@@ -118,7 +118,7 @@ function LoginContent() {
                 {loading ? (
                   <CircularProgress size={24} color="inherit" />
                 ) : (
-                  t('submitButton')
+                  t("submitButton")
                 )}
               </Button>
             </Stack>
@@ -131,17 +131,24 @@ function LoginContent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={
-      <Layout seo={{}} home={false}>
-        <Box maxWidth="sm" mx="auto" mt={4}>
-          <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
-              <CircularProgress />
-            </Box>
-          </Paper>
-        </Box>
-      </Layout>
-    }>
+    <Suspense
+      fallback={
+        <Layout seo={{}} home={false}>
+          <Box maxWidth="sm" mx="auto" mt={4}>
+            <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                minHeight="200px"
+              >
+                <CircularProgress />
+              </Box>
+            </Paper>
+          </Box>
+        </Layout>
+      }
+    >
       <LoginContent />
     </Suspense>
   );

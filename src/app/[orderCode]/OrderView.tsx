@@ -45,9 +45,7 @@ interface OrderViewProps {
   order: Order;
 }
 
-export default function OrderView({
-  order: initialOrder,
-}: OrderViewProps) {
+export default function OrderView({ order: initialOrder }: OrderViewProps) {
   const [order] = useState(initialOrder);
   const [items, setItems] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -58,10 +56,12 @@ export default function OrderView({
     const fetchOrderItems = async () => {
       setLoading(true);
       try {
-        const orderItems = await OrderItemService.getOrderItems(order.orderCode);
+        const orderItems = await OrderItemService.getOrderItems(
+          order.orderCode
+        );
         setItems(orderItems);
       } catch (error) {
-        console.error('Error fetching order items:', error);
+        console.error("Error fetching order items:", error);
       } finally {
         setLoading(false);
       }
