@@ -13,6 +13,7 @@ import {
   Select,
   useTheme,
   useMediaQuery,
+  Alert,
 } from "@mui/material";
 import OrderItemService from "@/src/services/OrderItemService";
 
@@ -21,6 +22,7 @@ export default function FormEditDialog(props) {
   const [drink, setDrink] = useState(props.item.drink);
   const [size, setSize] = useState(props.item.size);
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
   const drinkOptions = props.drinkOptions || [];
 
   const theme = useTheme();
@@ -34,6 +36,7 @@ export default function FormEditDialog(props) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    setError(""); // Clear any previous errors when opening dialog
   };
 
   const handleClose = () => {
@@ -54,6 +57,8 @@ export default function FormEditDialog(props) {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
+    setError(""); // Clear any previous errors
+
     let orderItem = {
       id: props.item.id,
       orderCode: props.item.orderCode,
@@ -61,9 +66,16 @@ export default function FormEditDialog(props) {
       drink: drink,
       size: size,
     };
-    await OrderItemService.updateOrderItems(orderItem);
-    await props.rFunc();
-    setOpen(false);
+
+    try {
+      await OrderItemService.updateOrderItems(orderItem);
+      await props.rFunc();
+      setOpen(false); // Only close dialog on success
+    } catch (error) {
+      console.error("Failed to update order item:", error);
+      // Set user-friendly error message
+      setError("Vui lòng điền đầy đủ thông tin và thử lại!");
+    }
   };
 
   return (
@@ -104,6 +116,11 @@ export default function FormEditDialog(props) {
             padding: isMobile ? "8px 16px" : "20px 24px",
           }}
         >
+          {error && (
+            <Alert severity="error" sx={{ marginBottom: 2 }}>
+              {error}
+            </Alert>
+          )}
           <TextField
             autoFocus
             margin="dense"

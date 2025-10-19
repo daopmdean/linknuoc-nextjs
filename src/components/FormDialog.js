@@ -13,6 +13,7 @@ import {
   Select,
   useTheme,
   useMediaQuery,
+  Alert,
 } from "@mui/material";
 import OrderItemService from "@/src/services/OrderItemService";
 
@@ -21,12 +22,14 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
   const [drink, setDrink] = useState("");
   const [size, setSize] = useState("");
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleClickOpen = () => {
     setOpen(true);
+    setError(""); // Clear any previous errors when opening dialog
   };
 
   const handleClose = () => {
@@ -47,14 +50,21 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    await OrderItemService.createOrderItems({
-      orderCode,
-      name,
-      drink,
-      size,
-    });
-    await rFunc();
-    setOpen(false);
+    setError(""); // Clear any previous errors
+
+    try {
+      const response = await OrderItemService.createOrderItems({
+        orderCode,
+        name,
+        drink,
+        size,
+      });
+      await rFunc();
+      setOpen(false); // Only close dialog on success
+    } catch (error) {
+      console.error("Failed to create order item:", error);
+      setError("Vui lòng điền đầy đủ thông tin và thử lại!");
+    }
   };
 
   return (
@@ -89,6 +99,11 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
             padding: isMobile ? "8px 16px" : "20px 24px",
           }}
         >
+          {error && (
+            <Alert severity="error" sx={{ marginBottom: 2 }}>
+              {error}
+            </Alert>
+          )}
           <DialogContentText
             sx={{
               fontSize: isMobile ? "0.875rem" : "1rem",
