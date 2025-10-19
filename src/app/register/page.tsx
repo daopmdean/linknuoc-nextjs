@@ -124,56 +124,6 @@ export default function RegisterPage() {
                 variant="outlined"
                 disabled={loading}
               />
-              <TextField
-                label={t("email")}
-                name="email"
-                type="email"
-                value={form.email}
-                onChange={handleChange}
-                fullWidth
-                required
-                variant="outlined"
-                disabled={loading}
-              />
-              <TextField
-                label={t("phone")}
-                name="phone"
-                value={form.phone}
-                onChange={handleChange}
-                fullWidth
-                variant="outlined"
-                disabled={loading}
-              />
-              <TextField
-                label={t("fullName")}
-                name="fullName"
-                value={form.fullName}
-                onChange={handleChange}
-                fullWidth
-                required
-                variant="outlined"
-                disabled={loading}
-              />
-              <TextField
-                label={t("address")}
-                name="address"
-                value={form.address}
-                onChange={handleChange}
-                fullWidth
-                variant="outlined"
-                disabled={loading}
-              />
-              <TextField
-                label={t("dob")}
-                name="dob"
-                type="date"
-                value={form.dob}
-                onChange={handleChange}
-                fullWidth
-                variant="outlined"
-                disabled={loading}
-                InputLabelProps={{ shrink: true }}
-              />
               <Button
                 type="submit"
                 variant="contained"
