@@ -19,7 +19,7 @@ export default function FormEditDialog(props) {
   // Find the current drink object from options
   const currentDrinkOption = useMemo(() => {
     if (drinkOptions == undefined || drinkOptions.length === 0) return null;
-    return drinkOptions.find(option => option.itemName === drink) || null;
+    return drinkOptions.find((option) => option.itemName === drink) || null;
   }, [drinkOptions, drink]);
 
   const handleClickOpen = () => {
@@ -78,7 +78,7 @@ export default function FormEditDialog(props) {
             disablePortal
             id="combo-box-demo"
             options={drinkOptions}
-            getOptionLabel={(option) => option.itemName || ''}
+            getOptionLabel={(option) => option.itemName || ""}
             sx={{ width: 400 }}
             onChange={handleDrinkChange}
             value={currentDrinkOption}

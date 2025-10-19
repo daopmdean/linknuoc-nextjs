@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import { useState, useTransition } from 'react';
-import { useLocale } from 'next-intl';
-import { 
-  Button, 
-  Menu, 
-  MenuItem, 
-  ListItemIcon, 
+import { useState, useTransition } from "react";
+import { useLocale } from "next-intl";
+import {
+  Button,
+  Menu,
+  MenuItem,
+  ListItemIcon,
   ListItemText,
   Box,
-  Typography 
-} from '@mui/material';
-import { Language as LanguageIcon } from '@mui/icons-material';
-import { setClientLocale, type Locale, SUPPORTED_LOCALES } from '../lib/locale';
+  Typography,
+} from "@mui/material";
+import { Language as LanguageIcon } from "@mui/icons-material";
+import { setClientLocale, type Locale, SUPPORTED_LOCALES } from "../lib/locale";
 
 const localeNames = {
-  vi: 'Tiếng Việt',
-  en: 'English'
+  vi: "Tiếng Việt",
+  en: "English",
 };
 
 const localeFlags = {
-  vi: '🇻🇳',
-  en: '🇺🇸'
+  vi: "🇻🇳",
+  en: "🇺🇸",
 };
 
 export default function LanguageSwitcher() {
@@ -57,13 +57,13 @@ export default function LanguageSwitcher() {
         onClick={handleClick}
         startIcon={<LanguageIcon />}
         disabled={isPending}
-        sx={{ 
-          color: 'inherit',
-          textTransform: 'none'
+        sx={{
+          color: "inherit",
+          textTransform: "none",
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <Typography component="span" sx={{ fontSize: '1.2em' }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+          <Typography component="span" sx={{ fontSize: "1.2em" }}>
             {localeFlags[locale]}
           </Typography>
           <Typography component="span" variant="body2">
@@ -71,18 +71,18 @@ export default function LanguageSwitcher() {
           </Typography>
         </Box>
       </Button>
-      
+
       <Menu
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+          vertical: "top",
+          horizontal: "right",
         }}
       >
         {SUPPORTED_LOCALES.map((supportedLocale) => (
@@ -92,12 +92,10 @@ export default function LanguageSwitcher() {
             selected={supportedLocale === locale}
             disabled={isPending}
           >
-            <ListItemIcon sx={{ fontSize: '1.2em' }}>
+            <ListItemIcon sx={{ fontSize: "1.2em" }}>
               {localeFlags[supportedLocale]}
             </ListItemIcon>
-            <ListItemText>
-              {localeNames[supportedLocale]}
-            </ListItemText>
+            <ListItemText>{localeNames[supportedLocale]}</ListItemText>
           </MenuItem>
         ))}
       </Menu>

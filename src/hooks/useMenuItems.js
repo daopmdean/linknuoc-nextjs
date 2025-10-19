@@ -1,5 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import { phucLongDrinks, theCoffeHouseDrinks, katinatDrinks } from "@/src/components/sample-drinks";
+import {
+  phucLongDrinks,
+  theCoffeHouseDrinks,
+  katinatDrinks,
+} from "@/src/components/sample-drinks";
 import MenuItemService from "@/src/services/MenuItemService";
 
 export const useMenuItems = (menuCode) => {
@@ -8,7 +12,10 @@ export const useMenuItems = (menuCode) => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       // Only fetch if menuCode is not one of the hardcoded options
-      if (menuCode && !["phuclong", "thecoffeehouse", "katinat"].includes(menuCode)) {
+      if (
+        menuCode &&
+        !["phuclong", "thecoffeehouse", "katinat"].includes(menuCode)
+      ) {
         try {
           const items = await MenuItemService.getMenuItems(menuCode);
           setDynamicMenuItems(items || []);

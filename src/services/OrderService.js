@@ -1,4 +1,4 @@
-import { API_URL } from "../common/constant";
+import { API_URL } from "@/src/common/constant";
 import LoginService from "./LoginService";
 
 const getMyOrderRes = async (size) => {

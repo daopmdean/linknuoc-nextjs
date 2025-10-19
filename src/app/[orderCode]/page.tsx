@@ -1,6 +1,6 @@
-import { notFound, redirect } from 'next/navigation';
-import OrderView from './OrderView';
-import OrderService from '@/src/services/OrderService';
+import { notFound, redirect } from "next/navigation";
+import OrderView from "./OrderView";
+import OrderService from "@/src/services/OrderService";
 
 interface PageProps {
   params: {
@@ -10,10 +10,10 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
   const orderRes = await OrderService.getOrderRes(params.orderCode);
-  
+
   if (orderRes.status !== "SUCCESS") {
     return {
-      title: 'Đơn nước không tồn tại',
+      title: "Đơn nước không tồn tại",
     };
   }
 
@@ -26,13 +26,13 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function OrderPage({ params }: PageProps) {
   const orderRes = await OrderService.getOrderRes(params.orderCode);
-  
+
   if (orderRes.status !== "SUCCESS") {
     notFound();
   }
 
   const order = orderRes.data[0];
-  
+
   // Handle redirect if configured
   if (order.redirect && order.redirectLink !== "") {
     redirect(order.redirectLink);

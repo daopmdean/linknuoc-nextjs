@@ -1,4 +1,4 @@
-import { API_URL } from "../common/constant";
+import { API_URL } from "@/src/common/constant";
 
 const getMenuItems = async (menuCode) => {
   try {
