@@ -160,7 +160,7 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Bạn uống món gì"
+                label="Chọn món"
                 sx={{
                   "& .MuiInputLabel-root": {
                     fontSize: isMobile ? "0.875rem" : "1rem",

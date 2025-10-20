@@ -55,18 +55,26 @@ export default function LanguageSwitcher() {
     <Box>
       <Button
         onClick={handleClick}
-        startIcon={<LanguageIcon />}
+        startIcon={<LanguageIcon sx={{ color: "text.primary" }} />}
         disabled={isPending}
         sx={{
-          color: "inherit",
+          color: "text.primary",
           textTransform: "none",
+          "&.Mui-disabled": {
+            color: "text.secondary",
+            opacity: 0.8,
+          },
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
           <Typography component="span" sx={{ fontSize: "1.2em" }}>
             {localeFlags[locale]}
           </Typography>
-          <Typography component="span" variant="body2">
+          <Typography
+            component="span"
+            variant="body2"
+            sx={{ color: "text.primary" }}
+          >
             {localeNames[locale]}
           </Typography>
         </Box>
@@ -92,7 +100,14 @@ export default function LanguageSwitcher() {
             selected={supportedLocale === locale}
             disabled={isPending}
           >
-            <ListItemIcon sx={{ fontSize: "1.2em" }}>
+            <ListItemIcon
+              sx={{
+                fontSize: "1.2em",
+                minWidth: "auto",
+                mr: 1,
+                ...(supportedLocale === locale && { color: "text.primary" }),
+              }}
+            >
               {localeFlags[supportedLocale]}
             </ListItemIcon>
             <ListItemText>{localeNames[supportedLocale]}</ListItemText>

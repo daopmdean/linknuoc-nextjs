@@ -153,7 +153,7 @@ export default function FormEditDialog(props) {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Bạn uống món gì"
+                label="Chọn món"
                 sx={{
                   "& .MuiInputLabel-root": {
                     fontSize: isMobile ? "0.875rem" : "1rem",
