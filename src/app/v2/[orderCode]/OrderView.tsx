@@ -141,6 +141,11 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
       console.log('🧪 Testing refresh-items event...');
       socket.emit('order-items-changed', { orderCode: order.orderCode, action: 'refresh' });
     };
+
+    // Add a catch-all listener for debugging
+    socket.onAny((eventName, ...args) => {
+      console.log('🎯 Socket received event:', eventName, args);
+    });
     
     socket.emit('join-order', order.orderCode);
     socket.on('joined-order', (confirmedOrderCode: string) => {
@@ -217,6 +222,7 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
       socket.off('order-item-updated', handleOrderItemUpdated);
       socket.off('order-item-deleted', handleOrderItemDeleted);
       socket.off('refresh-items', handleRefreshItemsEvent);
+      socket.offAny(); // Remove catch-all listener
       socket.emit('leave-order', order.orderCode);
     };
   }, [socket, isConnected, order.orderCode, handleRefreshItems]);

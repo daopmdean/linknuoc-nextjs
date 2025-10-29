@@ -58,7 +58,7 @@ const SocketHandler = (req: NextApiRequest, res: NextApiResponse & { socket: { s
       // Handle generic items changed event
       socket.on('order-items-changed', (data: { orderCode: string, action: string, meta: any, _id: string }) => {
         console.log('Broadcasting order-items-changed:', data)
-        socket.to(data.orderCode).emit('refresh-items', data.action)
+        socket.to(data.orderCode).emit('refresh-items', data)
       })
 
       socket.on('disconnect', () => {
