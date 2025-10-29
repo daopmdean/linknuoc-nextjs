@@ -24,6 +24,7 @@ import { useMenuItems } from "@/src/hooks/useMenuItems";
 import Layout from "@/src/components/Layout";
 import FormDialog from "@/src/components/FormDialog";
 import FormEditDialog from "@/src/components/FormEditDialog";
+import ChatWidget from "@/src/components/ChatWidget";
 import { useSocket } from "@/src/contexts/SocketContext";
 
 interface Order {
@@ -351,6 +352,9 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
             rFunc={handleRefreshItemsWithSocket}
           />
         )}
+
+        {/* Chat Widget */}
+        <ChatWidget orderCode={order.orderCode} />
       </Box>
     </Layout>
   );

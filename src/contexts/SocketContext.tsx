@@ -30,6 +30,8 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
+    console.log('🔄 SocketProvider: useEffect starting...');
+    
     // Initialize socket connection
     const socketInstance = io({
       path: '/api/socketio',
@@ -37,26 +39,34 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
     });
 
     socketInstance.on('connect', () => {
-      console.log('Socket connected:', socketInstance.id);
+      console.log('✅ SocketProvider: Socket connected:', socketInstance.id);
       setIsConnected(true);
     });
 
     socketInstance.on('disconnect', () => {
-      console.log('Socket disconnected');
+      console.log('❌ SocketProvider: Socket disconnected');
       setIsConnected(false);
     });
 
     socketInstance.on('connect_error', (error) => {
-      console.error('Socket connection error:', error);
+      console.error('💥 SocketProvider: Socket connection error:', error);
       setIsConnected(false);
     });
 
+    console.log('📝 SocketProvider: Setting socket instance');
     setSocket(socketInstance);
 
     return () => {
+      console.log('🧹 SocketProvider: Cleaning up socket');
       socketInstance.disconnect();
     };
-  }, []);
+  }, []); // Empty dependency array
+
+  console.log('🎨 SocketProvider render:', { 
+    socket: !!socket, 
+    isConnected, 
+    socketId: socket?.id
+  });
 
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>
