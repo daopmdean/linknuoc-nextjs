@@ -129,11 +129,23 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
 
   useEffect(() => {
     if (!socket || !isConnected) {
-      console.log('⏸️ Socket not ready, skipping listener setup');
+      console.log('⏸️ Socket not ready, skipping listener setup. Socket:', !!socket, 'isConnected:', isConnected);
       return;
     }
     console.log('🔧 Setting up socket listeners for order:', order.orderCode);
+    console.log('📡 Socket connected, ID:', socket.id);
+    
+    // Debug: Make socket available globally for testing
+    (window as any).debugSocket = socket;
+    (window as any).testRefresh = () => {
+      console.log('🧪 Testing refresh-items event...');
+      socket.emit('order-items-changed', { orderCode: order.orderCode, action: 'refresh' });
+    };
+    
     socket.emit('join-order', order.orderCode);
+    socket.on('joined-order', (confirmedOrderCode: string) => {
+      console.log('✅ Confirmed joined order room:', confirmedOrderCode);
+    });
     
     const handleOrderItemAdded = (newItem: any) => {
       if (!newItem || typeof newItem !== 'object' || !newItem.id) {
@@ -180,9 +192,15 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
     };
 
     // Handle refresh items event
-    const handleRefreshItemsEvent = async (action: string) => {
-      console.log('🔔 Socket: Received refresh-items event, action:', action);
-      await handleRefreshItems();
+    const handleRefreshItemsEvent = (data: any) => {
+      console.log('🔔 Socket: Received refresh-items event, data:', data);
+      console.log('🔄 Triggering handleRefreshItems...');
+      try {
+        handleRefreshItems();
+        console.log('✅ handleRefreshItems completed successfully');
+      } catch (error) {
+        console.error('❌ Error in handleRefreshItemsEvent:', error);
+      }
     };
 
     // Register listeners
@@ -194,6 +212,7 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
     // Cleanup
     return () => {
       console.log('🧹 Cleaning up socket listeners');
+      socket.off('joined-order');
       socket.off('order-item-added', handleOrderItemAdded);
       socket.off('order-item-updated', handleOrderItemUpdated);
       socket.off('order-item-deleted', handleOrderItemDeleted);
