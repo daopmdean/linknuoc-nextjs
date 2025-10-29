@@ -79,10 +79,7 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
       updatedData
     });
     
-    // First, refresh local data immediately
     await handleRefreshItems();
-    
-    // Then emit socket event to notify other clients
     if (socket && isConnected) {
       const eventData = {
         orderCode: order.orderCode,
@@ -126,26 +123,19 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
     fetchOrderItems();
   }, [order.orderCode]);
 
-  // Socket connection debugging
   useEffect(() => {
     console.log('🔌 Socket state changed:', { isConnected, socket: socket?.id });
   }, [socket, isConnected]);
 
-  // Socket event listeners setup
   useEffect(() => {
     if (!socket || !isConnected) {
       console.log('⏸️ Socket not ready, skipping listener setup');
       return;
     }
-    
     console.log('🔧 Setting up socket listeners for order:', order.orderCode);
-    
-    // Join the order room
     socket.emit('join-order', order.orderCode);
     
-    // Handle specific item events
     const handleOrderItemAdded = (newItem: any) => {
-      console.log('🔔 Socket: Order item added:', newItem);
       if (!newItem || typeof newItem !== 'object' || !newItem.id) {
         console.warn('Invalid newItem received:', newItem);
         return;
@@ -190,9 +180,9 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
     };
 
     // Handle refresh items event
-    const handleRefreshItemsEvent = (action: string) => {
+    const handleRefreshItemsEvent = async (action: string) => {
       console.log('🔔 Socket: Received refresh-items event, action:', action);
-      handleRefreshItems();
+      await handleRefreshItems();
     };
 
     // Register listeners
@@ -219,6 +209,8 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
       console.log('📡 Emitting order-items-changed for delete');
       socket.emit('order-items-changed', {
         orderCode: order.orderCode,
+        meta: {},
+        _id: id,  
         action: 'deleted'
       });
     }
