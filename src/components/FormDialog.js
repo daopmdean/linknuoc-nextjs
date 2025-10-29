@@ -53,17 +53,32 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
     setError(""); // Clear any previous errors
 
     try {
-      const response = await OrderItemService.createOrderItems({
+      let data = await OrderItemService.createOrderItems({
         orderCode,
         name,
         drink,
         size,
       });
-      await rFunc();
+      
+      console.log('FormDialog: Item created successfully');
+      console.log('FormDialog: rFunc type:', typeof rFunc);
+      
+      if (typeof rFunc === 'function') {
+        console.log('FormDialog: Calling rFunc... with', data[0].id);
+        await rFunc(data[0].id, {orderCode, name, drink, size});
+        console.log('FormDialog: rFunc completed');
+      } else {
+        console.warn('FormDialog: rFunc is not a function!');
+      }
+      
+      // Reset form
+      setName("");
+      setDrink("");
+      setSize("");
       setOpen(false); // Only close dialog on success
     } catch (error) {
       console.error("Failed to create order item:", error);
-      setError("Vui lòng điền đầy đủ thông tin và thử lại!");
+      setError("BRO! điền đầy đủ thông tin và thử lại!");
     }
   };
 

@@ -69,12 +69,21 @@ export default function FormEditDialog(props) {
 
     try {
       await OrderItemService.updateOrderItems(orderItem);
-      await props.rFunc();
+      
+      console.log('FormEditDialog: Item updated successfully');
+      
+      // Call refresh function which will also emit socket events
+      console.log("check tyoeof rFunc:", typeof props.rFunc);
+      if (typeof props.rFunc === 'function') {
+        console.log('FormEditDialog: Calling refresh function after update');
+        await props.rFunc();
+      }
+      
       setOpen(false); // Only close dialog on success
     } catch (error) {
       console.error("Failed to update order item:", error);
       // Set user-friendly error message
-      setError("Vui lòng điền đầy đủ thông tin và thử lại!");
+      setError("Vui lòng điền đầy đủ thông tin và thử lại!!");
     }
   };
 
