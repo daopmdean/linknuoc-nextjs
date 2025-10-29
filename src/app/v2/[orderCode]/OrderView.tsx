@@ -243,7 +243,9 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
   };
 
   const handleEdit = (item: OrderItem) => {
+    console.log('✏️ Editing item:', item);
     setEditItem(item);
+    console.log('✏️ EditItem set, state should update now');
   };
 
   const handleEditClose = () => {

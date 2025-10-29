@@ -18,12 +18,16 @@ import {
 import OrderItemService from "@/src/services/OrderItemService";
 
 export default function FormEditDialog(props) {
+  console.log('🔧 FormEditDialog props:', { open: props.open, item: props.item });
+  
   const [name, setName] = useState(props.item.name);
   const [drink, setDrink] = useState(props.item.drink);
   const [size, setSize] = useState(props.item.size);
-  const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
   const drinkOptions = props.drinkOptions || [];
+  
+  // Use props.open instead of internal state
+  const open = props.open || false;
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -34,13 +38,11 @@ export default function FormEditDialog(props) {
     return drinkOptions.find((option) => option.itemName === drink) || null;
   }, [drinkOptions, drink]);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-    setError(""); // Clear any previous errors when opening dialog
-  };
-
   const handleClose = () => {
-    setOpen(false);
+    setError(""); // Clear errors when closing
+    if (props.onClose) {
+      props.onClose();
+    }
   };
 
   const handleNameChange = (evt) => {
@@ -59,6 +61,12 @@ export default function FormEditDialog(props) {
     evt.preventDefault();
     setError(""); // Clear any previous errors
 
+    console.log('🔄 FormEditDialog: Submitting with data:', {
+      name, drink, size,
+      itemId: props.item.id,
+      orderCode: props.item.orderCode
+    });
+
     let orderItem = {
       id: props.item.id,
       orderCode: props.item.orderCode,
@@ -70,35 +78,25 @@ export default function FormEditDialog(props) {
     try {
       await OrderItemService.updateOrderItems(orderItem);
       
-      console.log('FormEditDialog: Item updated successfully');
+      console.log('✅ FormEditDialog: Item updated successfully');
       
       // Call refresh function which will also emit socket events
-      console.log("check tyoeof rFunc:", typeof props.rFunc);
+      console.log("check typeof rFunc:", typeof props.rFunc);
       if (typeof props.rFunc === 'function') {
         console.log('FormEditDialog: Calling refresh function after update');
-        await props.rFunc();
+        await props.rFunc(props.item.id, orderItem);
       }
       
-      setOpen(false); // Only close dialog on success
+      handleClose(); // Close dialog on success
     } catch (error) {
-      console.error("Failed to update order item:", error);
-      // Set user-friendly error message
+      console.error("❌ Failed to update order item:", error);
+      console.error("Error details:", error.message || error);
       setError("Vui lòng điền đầy đủ thông tin và thử lại!!");
     }
   };
 
   return (
-    <div>
-      <EditIcon
-        variant="outlined"
-        onClick={handleClickOpen}
-        sx={{
-          cursor: "pointer",
-          fontSize: isMobile ? "1.2rem" : "1.5rem",
-          padding: "4px",
-        }}
-      />
-      <Dialog
+    <Dialog
         open={open}
         onClose={handleClose}
         fullScreen={isMobile}
@@ -248,6 +246,5 @@ export default function FormEditDialog(props) {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
   );
 }
