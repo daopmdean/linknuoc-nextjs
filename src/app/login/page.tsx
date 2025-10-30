@@ -33,7 +33,7 @@ function LoginContent() {
   const [error, setError] = useState<string>("");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirectUrl");
+  const redirectUrl = searchParams?.get("redirectUrl") || "";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
