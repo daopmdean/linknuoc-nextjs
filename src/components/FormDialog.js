@@ -21,6 +21,7 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
   const [name, setName] = useState("");
   const [drink, setDrink] = useState("");
   const [size, setSize] = useState("");
+  const [note, setNote] = useState("");
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
 
@@ -48,6 +49,10 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
     setSize(evt.target.value);
   };
 
+  const handleNoteChange = (evt) => {
+    setNote(evt.target.value);
+  };
+
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     setError(""); // Clear any previous errors
@@ -58,19 +63,20 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
         name,
         drink,
         size,
+        note,
       });
-      
-      console.log('FormDialog: Item created successfully');
-      console.log('FormDialog: rFunc type:', typeof rFunc);
-      
-      if (typeof rFunc === 'function') {
-        console.log('FormDialog: Calling rFunc... with', data[0].id);
-        await rFunc(data[0].id, {orderCode, name, drink, size});
-        console.log('FormDialog: rFunc completed');
+
+      console.log("FormDialog: Item created successfully");
+      console.log("FormDialog: rFunc type:", typeof rFunc);
+
+      if (typeof rFunc === "function") {
+        console.log("FormDialog: Calling rFunc... with", data[0].id);
+        await rFunc(data[0].id, { orderCode, name, drink, size });
+        console.log("FormDialog: rFunc completed");
       } else {
-        console.warn('FormDialog: rFunc is not a function!');
+        console.warn("FormDialog: rFunc is not a function!");
       }
-      
+
       // Reset form
       setName("");
       setDrink("");
@@ -230,6 +236,34 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
               L
             </MenuItem>
           </Select>
+          <InputLabel
+            id="demo-simple-select-label"
+            sx={{
+              fontSize: isMobile ? "0.875rem" : "1rem",
+              marginBottom: 1,
+            }}
+          >
+            Note
+          </InputLabel>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="note"
+            label="Note"
+            type="string"
+            fullWidth
+            variant="outlined"
+            onChange={handleNoteChange}
+            sx={{
+              marginBottom: 2,
+              "& .MuiInputLabel-root": {
+                fontSize: isMobile ? "0.875rem" : "1rem",
+              },
+              "& .MuiOutlinedInput-root": {
+                fontSize: isMobile ? "0.875rem" : "1rem",
+              },
+            }}
+          />
         </DialogContent>
         <DialogActions
           sx={{

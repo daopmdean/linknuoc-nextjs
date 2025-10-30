@@ -31,6 +31,7 @@ const createOrderItems = async (orderItem) => {
       name: orderItem.name,
       drink: orderItem.drink,
       size: orderItem.size,
+      note: orderItem.note,
     }),
   };
   
@@ -60,6 +61,7 @@ const updateOrderItems = async (orderItem) => {
       name: orderItem.name,
       drink: orderItem.drink,
       size: orderItem.size,
+      note: orderItem.note,
     }),
   };
 
