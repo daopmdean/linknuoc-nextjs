@@ -2,6 +2,7 @@ import * as React from "react";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import ThemeRegistry from "./ThemeRegistry";
+import { SocketProvider } from "@/src/contexts/SocketContext";
 
 export const metadata = {
   title: "Linknuoc - Chia sẻ link nước đến với bạn bè & đồng nghiệp",
@@ -24,7 +25,11 @@ export default async function RootLayout({
       </head>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeRegistry>{children}</ThemeRegistry>
+          <ThemeRegistry>
+            <SocketProvider>
+              {children}
+            </SocketProvider>
+          </ThemeRegistry>
         </NextIntlClientProvider>
       </body>
     </html>

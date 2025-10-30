@@ -18,6 +18,7 @@ import {
   Stack,
   CircularProgress,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 import OrderItemService from "@/src/services/OrderItemService";
 import { useMenuItems } from "@/src/hooks/useMenuItems";
 import Layout from "@/src/components/Layout";
@@ -39,6 +40,7 @@ interface OrderItem {
   name: string;
   drink: string;
   size: string;
+  note: string;
 }
 
 interface OrderViewProps {
@@ -49,6 +51,8 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
   const [order] = useState(initialOrder);
   const [items, setItems] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [editItem, setEditItem] = useState<OrderItem | null>(null);
   const { drinkOptions } = useMenuItems(order.menuCode);
 
   // Fetch order items on client side since server-side doesn't have access to auth cookies
@@ -69,6 +73,16 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
 
     fetchOrderItems();
   }, [order.orderCode]);
+
+  const handleClickEdit = (item: OrderItem) => {
+    setOpenEdit(true);
+    setEditItem(item);
+  };
+
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+    setEditItem(null);
+  };
 
   const handleDelete = async (id: string) => {
     await OrderItemService.deleteOrderItems(id);
@@ -148,7 +162,12 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
                     <TableCell>
                       <b>Size</b>
                     </TableCell>
-                    <TableCell></TableCell>
+                    <TableCell>
+                      <b>Note</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Action</b>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -167,13 +186,12 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
                       <TableCell>{item.name}</TableCell>
                       <TableCell>{item.drink}</TableCell>
                       <TableCell>{item.size}</TableCell>
+                      <TableCell>{item.note}</TableCell>
                       <TableCell>
                         <Stack direction="row" spacing={1} alignItems="center">
-                          <FormEditDialog
-                            item={item}
-                            rFunc={handleRefreshItems}
-                            drinkOptions={drinkOptions}
-                          />
+                          <IconButton onClick={() => handleClickEdit(item)}>
+                            <EditIcon />
+                          </IconButton>
                           <IconButton
                             color="error"
                             onClick={async () => {
@@ -193,6 +211,17 @@ export default function OrderView({ order: initialOrder }: OrderViewProps) {
                 </TableBody>
               </Table>
             </TableContainer>
+          )}
+
+          {openEdit && (
+            <FormEditDialog
+              open={openEdit}
+              item={editItem}
+              orderCode={order.orderCode}
+              drinkOptions={drinkOptions}
+              onClose={handleCloseEdit}
+              rFunc={handleRefreshItems}
+            />
           )}
         </Paper>
       </Box>
