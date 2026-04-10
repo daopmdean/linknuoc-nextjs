@@ -28,9 +28,9 @@ export default function MenusPage() {
   useEffect(() => {
     const fetchMenus = async () => {
       try {
-        const menusRes: MenusResponse = await MenuService.getMenusRes();
-        if (menusRes.status === "SUCCESS") {
-          setMenus(menusRes.data);
+        const menusRes = await MenuService.getMenusRes();
+        if (menusRes.status === "SUCCESS" && menusRes.data) {
+          setMenus(menusRes.data as any);
         }
       } catch (error) {
         console.error("Error fetching menus:", error);

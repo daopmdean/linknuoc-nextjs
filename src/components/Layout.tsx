@@ -2,12 +2,19 @@ import { AppBar, Toolbar } from "@mui/material";
 import LanguageSwitcher from "./LanguageSwitcher";
 import LogoLink from "./LogoLink";
 import styles from "./layout.module.css";
-import SEO from "./SEO";
+import SEO, { SEOProps } from "./SEO";
+import { ReactNode } from "react";
 
-export default function Layout({ children, home, seo }) {
+interface LayoutProps {
+  children: ReactNode;
+  home?: boolean;
+  seo?: SEOProps;
+}
+
+export default function Layout({ children, home, seo }: LayoutProps) {
   return (
     <div className={styles.layoutWrapper}>
-      <SEO {...seo} />
+      {seo && <SEO {...seo} />}
       <AppBar
         position="static"
         elevation={1}

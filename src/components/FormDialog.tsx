@@ -9,15 +9,27 @@ import DialogTitle from "@mui/material/DialogTitle";
 import {
   Autocomplete,
   InputLabel,
-  MenuItem,
+  MenuItem as MuiMenuItem,
   Select,
   useTheme,
   useMediaQuery,
   Alert,
+  SelectChangeEvent,
 } from "@mui/material";
 import OrderItemService from "@/src/services/OrderItemService";
 
-export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
+interface DrinkOption {
+  itemName: string;
+  [key: string]: any;
+}
+
+interface FormDialogProps {
+  orderCode: string;
+  drinkOptions: DrinkOption[];
+  rFunc: (id?: string, data?: any) => Promise<void> | void;
+}
+
+export default function FormDialog({ orderCode, drinkOptions, rFunc }: FormDialogProps) {
   const [name, setName] = useState("");
   const [drink, setDrink] = useState("");
   const [size, setSize] = useState("");
@@ -37,23 +49,23 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
     setOpen(false);
   };
 
-  const handleNameChange = (evt) => {
+  const handleNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setName(evt.target.value);
   };
 
-  const handleDrinkChange = (evt, newValue) => {
-    setDrink(newValue?.itemName);
+  const handleDrinkChange = (evt: any, newValue: DrinkOption | null) => {
+    setDrink(newValue?.itemName || "");
   };
 
-  const handleSizeChange = (evt) => {
+  const handleSizeChange = (evt: SelectChangeEvent) => {
     setSize(evt.target.value);
   };
 
-  const handleNoteChange = (evt) => {
+  const handleNoteChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setNote(evt.target.value);
   };
 
-  const handleSubmit = async (evt) => {
+  const handleSubmit = async (evt: React.FormEvent) => {
     evt.preventDefault();
     setError(""); // Clear any previous errors
 
@@ -70,8 +82,8 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
       console.log("FormDialog: rFunc type:", typeof rFunc);
 
       if (typeof rFunc === "function") {
-        console.log("FormDialog: Calling rFunc... with", data[0].id);
-        await rFunc(data[0].id, { orderCode, name, drink, size });
+        console.log("FormDialog: Calling rFunc... with", (data as any)?.id);
+        await rFunc((data as any)?.id, { orderCode, name, drink, size });
         console.log("FormDialog: rFunc completed");
       } else {
         console.warn("FormDialog: rFunc is not a function!");
@@ -100,11 +112,13 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
         maxWidth={isMobile ? false : "sm"}
         fullWidth
         slotProps={{
-          sx: {
-            margin: isMobile ? 0 : 2,
-            width: isMobile ? "100%" : "auto",
-            height: isMobile ? "100%" : "auto",
-          },
+          paper: {
+            sx: {
+              margin: isMobile ? 0 : 2,
+              width: isMobile ? "100%" : "auto",
+              height: isMobile ? "100%" : "auto",
+            },
+          }
         }}
       >
         <DialogTitle
@@ -217,24 +231,24 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
               },
             }}
           >
-            <MenuItem
+            <MuiMenuItem
               value="S"
               sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}
             >
               S
-            </MenuItem>
-            <MenuItem
+            </MuiMenuItem>
+            <MuiMenuItem
               value="M"
               sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}
             >
               M
-            </MenuItem>
-            <MenuItem
+            </MuiMenuItem>
+            <MuiMenuItem
               value="L"
               sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}
             >
               L
-            </MenuItem>
+            </MuiMenuItem>
           </Select>
           <InputLabel
             id="demo-simple-select-label"
@@ -273,7 +287,7 @@ export default function FormDialog({ orderCode, drinkOptions, rFunc }) {
           }}
         >
           <Button
-            onClick={handleSubmit}
+            onClick={handleSubmit as any}
             type="submit"
             variant="contained"
             fullWidth={isMobile}

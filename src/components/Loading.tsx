@@ -1,6 +1,10 @@
 import { Typography, Box, CircularProgress, Container } from "@mui/material";
 
-export default function Loading({ text = "Đang tải..." }) {
+interface LoadingProps {
+  text?: string;
+}
+
+export default function Loading({ text = "Đang tải..." }: LoadingProps) {
   return (
     <Container maxWidth="lg">
       <Box

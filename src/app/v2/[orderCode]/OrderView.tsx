@@ -39,9 +39,11 @@ interface Order {
 
 interface OrderItem {
   id: string;
+  orderCode: string;
   name: string;
   drink: string;
   size: string;
+  note: string;
 }
 
 interface OrderViewProps {

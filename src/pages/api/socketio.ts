@@ -9,11 +9,13 @@ export const config = {
 };
 
 // Store chat messages globally (in production, use database)
-const chatMessages: { [orderCode: string]: any[] } = {};
+const chatMessages: {
+  [orderCode: string]: any[];
+} = {};
 
 const SocketHandler = (
   req: NextApiRequest,
-  res: NextApiResponse & { socket: { server: NetServer & { io?: ServerIO } } }
+  res: NextApiResponse & { socket: { server: NetServer & { io?: ServerIO } } },
 ) => {
   if (res.socket.server.io) {
     console.log("Socket is already running");
@@ -51,7 +53,7 @@ const SocketHandler = (
         (data: { orderCode: string; item: any }) => {
           console.log("Broadcasting order-item-created:", data);
           socket.to(data.orderCode).emit("order-item-added", data.item);
-        }
+        },
       );
 
       socket.on(
@@ -59,7 +61,7 @@ const SocketHandler = (
         (data: { orderCode: string; item: any }) => {
           console.log("Broadcasting order-item-updated:", data);
           socket.to(data.orderCode).emit("order-item-updated", data.item);
-        }
+        },
       );
 
       socket.on(
@@ -67,7 +69,7 @@ const SocketHandler = (
         (data: { orderCode: string; itemId: string }) => {
           console.log("Broadcasting order-item-deleted:", data);
           socket.to(data.orderCode).emit("order-item-deleted", data.itemId);
-        }
+        },
       );
 
       // Handle generic items changed event
@@ -81,7 +83,7 @@ const SocketHandler = (
         }) => {
           console.log("Broadcasting order-items-changed:", data);
           socket.to(data.orderCode).emit("refresh-items", data);
-        }
+        },
       );
 
       // Handle joining chat room
@@ -94,7 +96,7 @@ const SocketHandler = (
         console.log(
           `Sending chat history to ${socket.id}:`,
           history.length,
-          "messages"
+          "messages",
         );
         socket.emit("chat-history", history);
       });
@@ -138,11 +140,11 @@ const SocketHandler = (
 
           console.log(
             `📤 Broadcasting message to chat-${data.orderCode}:`,
-            chatMessage
+            chatMessage,
           );
           console.log(
             `📊 Total messages in ${data.orderCode}:`,
-            chatMessages[data.orderCode].length
+            chatMessages[data.orderCode].length,
           );
 
           // Broadcast to all users in the chat room (including sender)
@@ -150,13 +152,13 @@ const SocketHandler = (
 
           // Also emit to the sender to ensure they see their own message
           socket.emit("chat-message", chatMessage);
-        }
+        },
       );
 
       // Handle get chat history request
       socket.on("get-chat-history", (orderCode: string) => {
         console.log(
-          `📜 Client ${socket.id} requesting chat history for: ${orderCode}`
+          `📜 Client ${socket.id} requesting chat history for: ${orderCode}`,
         );
         const history = chatMessages[orderCode] || [];
         console.log(`📜 Sending ${history.length} messages to ${socket.id}`);

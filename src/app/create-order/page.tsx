@@ -59,7 +59,7 @@ export default function CreateOrderPage() {
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [menus, setMenus] = useState([]);
+  const [menus, setMenus] = useState<any[]>([]);
   const [menusLoading, setMenusLoading] = useState(false);
   const [error, setError] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -135,7 +135,7 @@ export default function CreateOrderPage() {
     try {
       const { orderCode } = await OrderService.createOrder(form);
       if (form.redirect && form.redirectLink) {
-        setCreatedOrderCode(orderCode);
+        setCreatedOrderCode(orderCode || "");
         setShowOrderLink(true);
       } else {
         router.push("/" + orderCode);

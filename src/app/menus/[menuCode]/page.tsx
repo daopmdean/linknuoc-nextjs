@@ -64,22 +64,22 @@ export default function MenuPage({ params }: MenuPageProps) {
         setLoading(true);
 
         // Fetch menu data
-        const menuRes: MenuResponse = await MenuService.getMenuRes(
+        const menuRes = await MenuService.getMenuRes(
           params.menuCode
         );
-        if (menuRes.status !== "SUCCESS") {
+        if (menuRes.status !== "SUCCESS" || !menuRes.data) {
           setError("Menu not found");
           return;
         }
 
         const menuData = menuRes.data[0];
-        setMenu(menuData);
+        setMenu(menuData as any);
 
         // Fetch menu items
         const menuItems = await MenuItemService.getMenuItems(
           menuData.menuCode || params.menuCode
         );
-        setItems(menuItems || []);
+        setItems(Array.isArray(menuItems) ? (menuItems as any) : []);
       } catch (err) {
         console.error("Error fetching menu data:", err);
         setError("Error loading menu data");

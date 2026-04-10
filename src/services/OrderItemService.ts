@@ -1,12 +1,13 @@
 import { API_URL } from "@/src/common/constant";
+import { ApiResponse, OrderItem } from "./types";
 
-const getOrderItems = async (orderCode) => {
+const getOrderItems = async (orderCode: string): Promise<OrderItem[]> => {
   try {
     const orderItemFetchRes = await fetch(
-      `${API_URL}/orders/${orderCode}/items`
+      `${API_URL}/orders/${orderCode}/items`,
     );
-    const orderItemRes = await orderItemFetchRes.json();
-    
+    const orderItemRes: ApiResponse<OrderItem> = await orderItemFetchRes.json();
+
     // Ensure we always return an array
     if (orderItemRes.status === "SUCCESS") {
       return Array.isArray(orderItemRes.data) ? orderItemRes.data : [];
@@ -20,7 +21,9 @@ const getOrderItems = async (orderCode) => {
   }
 };
 
-const createOrderItems = async (orderItem) => {
+const createOrderItems = async (
+  orderItem: Omit<OrderItem, "id">,
+): Promise<OrderItem> => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -34,23 +37,25 @@ const createOrderItems = async (orderItem) => {
       note: orderItem.note,
     }),
   };
-  
+
   try {
-    const fetchResponse = await fetch(`${API_URL}/orders/items`, requestOptions);
-    const response = await fetchResponse.json();
-    if (response.status !== "SUCCESS") {
+    const fetchResponse = await fetch(
+      `${API_URL}/orders/items`,
+      requestOptions,
+    );
+    const response: ApiResponse<OrderItem> = await fetchResponse.json();
+    if (response.status !== "SUCCESS" || !response.data) {
       throw new Error("createOrderItems failed " + response.status);
     }
 
     // Return the new item data for the caller to handle socket events
-    return response.data;
-
-  } catch (err) {
+    return response.data as any;
+  } catch (err: any) {
     throw new Error("createOrderItems with error: " + err.message);
   }
 };
 
-const updateOrderItems = async (orderItem) => {
+const updateOrderItems = async (orderItem: OrderItem): Promise<OrderItem> => {
   const requestOptions = {
     method: "PUT",
     headers: {
@@ -66,21 +71,26 @@ const updateOrderItems = async (orderItem) => {
   };
 
   try {
-    const fetchResponse = await fetch(`${API_URL}/orders/items/${orderItem.id}`, requestOptions);
-    const response = await fetchResponse.json();
-    if (response.status !== "SUCCESS") {
+    const fetchResponse = await fetch(
+      `${API_URL}/orders/items/${orderItem.id}`,
+      requestOptions,
+    );
+    const response: ApiResponse<OrderItem> = await fetchResponse.json();
+    if (response.status !== "SUCCESS" || !response.data) {
       throw new Error("updateOrderItems failed " + response.status);
     }
 
     // Return the updated item data for the caller to handle socket events
-    return response.data;
-    
-  } catch (err) {
+    return response.data as any;
+  } catch (err: any) {
     throw new Error("updateOrderItems with error: " + err.message);
   }
 };
 
-const deleteOrderItems = async (id, orderCode) => {
+const deleteOrderItems = async (
+  id: string,
+  orderCode?: string,
+): Promise<boolean> => {
   const requestOptions = {
     method: "DELETE",
   };

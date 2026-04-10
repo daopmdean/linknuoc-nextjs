@@ -8,24 +8,40 @@ import DialogTitle from "@mui/material/DialogTitle";
 import {
   Autocomplete,
   InputLabel,
-  MenuItem,
+  MenuItem as MuiMenuItem,
   Select,
   useTheme,
   useMediaQuery,
   Alert,
+  SelectChangeEvent,
 } from "@mui/material";
 import OrderItemService from "@/src/services/OrderItemService";
+import { OrderItem } from "@/src/services/types";
 
-export default function FormEditDialog(props) {
+interface DrinkOption {
+  itemName: string;
+  [key: string]: any;
+}
+
+interface FormEditDialogProps {
+  open?: boolean;
+  item: OrderItem | null;
+  orderCode?: string;
+  drinkOptions?: DrinkOption[];
+  onClose?: () => void;
+  rFunc?: (id?: string, data?: any) => Promise<void> | void;
+}
+
+export default function FormEditDialog(props: FormEditDialogProps) {
   console.log("🔧 FormEditDialog props:", {
     open: props.open,
     item: props.item,
   });
 
-  const [name, setName] = useState(props.item.name);
-  const [drink, setDrink] = useState(props.item.drink);
-  const [size, setSize] = useState(props.item.size);
-  const [note, setNote] = useState(props.item.note);
+  const [name, setName] = useState(props.item?.name || "");
+  const [drink, setDrink] = useState(props.item?.drink || "");
+  const [size, setSize] = useState(props.item?.size || "");
+  const [note, setNote] = useState(props.item?.note || "");
   const [error, setError] = useState("");
   const drinkOptions = props.drinkOptions || [];
 
@@ -48,23 +64,23 @@ export default function FormEditDialog(props) {
     }
   };
 
-  const handleNameChange = (evt) => {
+  const handleNameChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setName(evt.target.value);
   };
 
-  const handleDrinkChange = (evt, newValue) => {
-    setDrink(newValue?.itemName);
+  const handleDrinkChange = (evt: any, newValue: DrinkOption | null) => {
+    setDrink(newValue?.itemName || "");
   };
 
-  const handleSizeChange = (evt) => {
+  const handleSizeChange = (evt: SelectChangeEvent) => {
     setSize(evt.target.value);
   };
 
-  const handleNoteChange = (evt) => {
+  const handleNoteChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setNote(evt.target.value);
   };
 
-  const handleSubmit = async (evt) => {
+  const handleSubmit = async (evt: React.FormEvent) => {
     evt.preventDefault();
     setError(""); // Clear any previous errors
 
@@ -73,9 +89,14 @@ export default function FormEditDialog(props) {
       drink,
       size,
       note,
-      itemId: props.item.id,
-      orderCode: props.item.orderCode,
+      itemId: props.item?.id,
+      orderCode: props.item?.orderCode,
     });
+
+    if (!props.item?.id || !props.item?.orderCode) {
+      setError("Thiếu thông tin đơn hàng.");
+      return;
+    }
 
     let orderItem = {
       id: props.item.id,
@@ -99,7 +120,7 @@ export default function FormEditDialog(props) {
       }
 
       handleClose(); // Close dialog on success
-    } catch (error) {
+    } catch (error: any) {
       console.error("❌ Failed to update order item:", error);
       console.error("Error details:", error.message || error);
       setError("Vui lòng điền đầy đủ thông tin và thử lại!!");
@@ -207,15 +228,15 @@ export default function FormEditDialog(props) {
             },
           }}
         >
-          <MenuItem value="S" sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}>
+          <MuiMenuItem value="S" sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}>
             S
-          </MenuItem>
-          <MenuItem value="M" sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}>
+          </MuiMenuItem>
+          <MuiMenuItem value="M" sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}>
             M
-          </MenuItem>
-          <MenuItem value="L" sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}>
+          </MuiMenuItem>
+          <MuiMenuItem value="L" sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}>
             L
-          </MenuItem>
+          </MuiMenuItem>
         </Select>
         <InputLabel
           id="demo-simple-select-label"
@@ -255,7 +276,7 @@ export default function FormEditDialog(props) {
         }}
       >
         <Button
-          onClick={handleSubmit}
+          onClick={handleSubmit as any}
           variant="contained"
           fullWidth={isMobile}
           sx={{

@@ -52,17 +52,17 @@ export default function ProfilePage() {
   useEffect(() => {
     async function fetchMenus() {
       const menusRes = await MenuService.getMenusRes();
-      if (menusRes.status === "SUCCESS" && user.username) {
+      if (menusRes.status === "SUCCESS" && user.username && menusRes.data) {
         setMenus(
-          menusRes.data.filter((menu: Menu) => menu.username === user.username)
+          menusRes.data.filter((menu: any) => menu.username === user.username) as any
         );
       }
     }
 
     async function fetchOrders() {
       const ordersRes = await OrderService.getMyOrderRes(5);
-      if (ordersRes.status === "SUCCESS" && user.username) {
-        setOrders(ordersRes.data);
+      if (ordersRes.status === "SUCCESS" && user.username && ordersRes.data) {
+        setOrders(ordersRes.data as any);
       }
     }
 

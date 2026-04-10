@@ -1,10 +1,11 @@
 import { API_URL } from "@/src/common/constant";
+import { ApiResponse, Menu } from "./types";
 
-const getMenusRes = async () => {
+const getMenusRes = async (): Promise<ApiResponse<Menu>> => {
   try {
     const menuFetchRes = await fetch(`${API_URL}/menus`);
     return await menuFetchRes.json();
-  } catch (err) {
+  } catch (err: any) {
     return {
       status: "ERROR",
       message: err.message,
@@ -12,11 +13,11 @@ const getMenusRes = async () => {
   }
 };
 
-const getMenuRes = async (menuCode) => {
+const getMenuRes = async (menuCode: string): Promise<ApiResponse<Menu>> => {
   try {
     const menuFetchRes = await fetch(`${API_URL}/menus/${menuCode}`);
     return await menuFetchRes.json();
-  } catch (err) {
+  } catch (err: any) {
     return {
       status: "ERROR",
       message: err.message,
